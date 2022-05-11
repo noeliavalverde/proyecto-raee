@@ -1,10 +1,10 @@
-from src.domain.regists import RegistsRepository
+from src.domain.machines import MachineRepository
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 def test_should_register_one_machine():
-    regists_repository = RegistsRepository(temp_file())
-    app = create_app(repositories={"regist": regists_repository})
+    machine_repository = MachineRepository(temp_file())
+    app = create_app(repositories={"machine": machine_repository})
     client = app.test_client()
 
 

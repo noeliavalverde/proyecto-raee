@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from src.domain.regists import Regists
+from src.domain.machines import Machine
 
 from src.lib.utils import object_to_json
 
@@ -21,7 +21,7 @@ def create_app(repositories):
     @app.route("/api/process/register", methods=["POST"])
     def regist_machine():
         data = request.json
-        washer_machine = Regists( 
+        washer_machine = Machine( 
            id_machine= data['id_machine'],
                 brand= data['brand'],
                 model= data['model'],
@@ -29,7 +29,7 @@ def create_app(repositories):
                 employee= data['employee']
         )
           
-        repositories["regist"].save(washer_machine)
+        repositories["machine"].save(washer_machine)
         return '', 200
 
     return app

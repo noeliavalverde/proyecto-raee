@@ -1,6 +1,6 @@
 import sqlite3
 
-class Regists:
+class Machine:
     def __init__(self, id_machine, brand, model, register_date, employee):
         self.id_machine= id_machine
         self.brand= brand
@@ -17,7 +17,7 @@ class Regists:
             "employee": self.employee
         }
 
-class RegistsRepository:
+class MachineRepository:
     def __init__(self, database_path):
         self.database_path = database_path
         self.init_tables()
@@ -29,7 +29,7 @@ class RegistsRepository:
 
     def init_tables(self):
         sql = """
-            create table if not exists registers(
+            create table if not exists machines(
                id_machine varchar primary key,
                 brand varchar,
                 model varchar,
@@ -44,14 +44,14 @@ class RegistsRepository:
 
 
     def get_by_id(self, id_machine):
-        sql = """SELECT * FROM registers WHERE id_machine= :id_machine"""
+        sql = """SELECT * FROM machines WHERE id_machine= :id_machine"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"id_machine": id_machine})
         data = cursor.fetchall()
         washers = []
         for item in data:
-            washer_machine = Regists(
+            washer_machine = Machine(
                 id= item["id_machine"],
                 cat_id= item["brand"],
                 user_name= item["model"],
@@ -62,7 +62,7 @@ class RegistsRepository:
         return washers
 
     def save(self, washer):
-        sql = """INSERT into registers (id_machine, brand, model, register_date, employee) values (
+        sql = """INSERT into machines (id_machine, brand, model, register_date, employee) values (
             :id_machine, :brand, :model, :register_date, :employee
         ) """
         conn = self.create_conn()
