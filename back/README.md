@@ -1,4 +1,4 @@
-# Aplicación semilla (backend)
+# Aplicación recuperación electrodomésticos RAEE
 
 ## Puesta en marcha
 

@@ -19,6 +19,3 @@ def test_should_return_info_in_database():
     assert response.json == {
         "app_name": "test application",
     }
-
-def test_commit():
-    pass
