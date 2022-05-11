@@ -29,8 +29,8 @@ class RegistsRepository:
 
     def init_tables(self):
         sql = """
-            create table if not exists the_regists (
-               id_machine varchar,
+            create table if not exists registers(
+               id_machine varchar primary key,
                 brand varchar,
                 model varchar,
                 register_date varchar,
@@ -42,27 +42,9 @@ class RegistsRepository:
         cursor.execute(sql)
         conn.commit()
 
-    def get_all_services_by_category(self):
-        sql = """select * from the_regists"""
-        conn = self.create_conn()
-        cursor = conn.cursor()
-        cursor.execute(sql)
-
-        data = cursor.fetchall()
-        washers = []
-        for item in data:
-            washer_machine = Regists(
-                id= item["id_machine"],
-                cat_id= item["brand"],
-                user_name= item["model"],
-                text= item["register_date"],
-                intro= item["employee"]
-            )
-            washers.append(washer_machine)
-        return washers
 
     def get_by_id(self, id_machine):
-        sql = """SELECT * FROM the_regists WHERE id_machine= :id_machine"""
+        sql = """SELECT * FROM registers WHERE id_machine= :id_machine"""
         conn = self.create_conn()
         cursor = conn.cursor()
         cursor.execute(sql, {"id_machine": id_machine})
@@ -80,7 +62,7 @@ class RegistsRepository:
         return washers
 
     def save(self, washer):
-        sql = """INSERT into the_regists (id_machine, brand, model, register_date, employee) values (
+        sql = """INSERT into registers (id_machine, brand, model, register_date, employee) values (
             :id_machine, :brand, :model, :register_date, :employee
         ) """
         conn = self.create_conn()

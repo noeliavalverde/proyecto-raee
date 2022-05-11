@@ -5,6 +5,7 @@ from src.domain.regists import RegistsRepository
 
 
 database_path = "data/database.db"
+print(database_path)
 
 repositories = {
     "info": InfoRepository(database_path),
