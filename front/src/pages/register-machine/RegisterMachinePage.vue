@@ -3,7 +3,7 @@
 
 
   <label for="id_machine">ID: </label>
-  <input type="text" id="id_machine" v-model="washing_machine.brand">
+  <input type="text" id="id_machine" v-model="washing_machine.id_machine">
 
   <label for="brand">Marca: </label>
   <input type="text" id="brand" v-model="washing_machine.brand">
