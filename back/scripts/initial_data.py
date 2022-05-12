@@ -42,10 +42,10 @@ def main():
         register_date= "2022-05-30",
         employee= "jeff_4"
         )
-    machine_repository.save(washer_machine_1)
-    machine_repository.save(washer_machine_2)
-    machine_repository.save(washer_machine_3)
-    machine_repository.save(washer_machine_4)
+    machine_repository.save_machines(washer_machine_1)
+    machine_repository.save_machines(washer_machine_2)
+    machine_repository.save_machines(washer_machine_3)
+    machine_repository.save_machines(washer_machine_4)
 
 
 
