@@ -1,4 +1,6 @@
+
 import { createRouter, createWebHistory } from 'vue-router'
+
 
 const routes = [
   {
@@ -11,6 +13,11 @@ const routes = [
     name: 'About',
     component: () => import('@/pages/about/AboutPage.vue'),
   },
+  {
+    path: '/register',
+    name: 'RegisterMachine',
+    component: () => import('@/pages/register-machine/RegisterMachinePage.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -19,3 +26,4 @@ const router = createRouter({
 })
 
 export default router
+
