@@ -62,7 +62,7 @@ export default {
             
             await fetch("http://localhost:5000/api/process/register", settings);
             
-            
+            alert("La lavadora se ha registrado correctamente")
 
         }
     },

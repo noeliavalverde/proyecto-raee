@@ -17,35 +17,33 @@ def create_app(repositories):
     def info_get():
         info = repositories["info"].get_info()
         return object_to_json(info)
-    
+
     @app.route("/api/process/register", methods=["POST"])
     def register_machine_event():
         data = request.json
-        print('-------------------',data)
-        register_machine = Event( 
-           id_machine= data['id_machine'],
-                employee= data['employee'],
-                timestamp= data['timestamp'],
-                event= data['event'],
-                observations= data['observations']
+        register_machine = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            observations=data["observations"],
         )
-          
+
         repositories["event"].save_event(register_machine)
-        return '', 200
-    
+        return "", 200
+
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
         data = request.json
-        event = Event( 
-           id_machine= data['id_machine'],
-                employee= data['employee'],
-                timestamp= data['timestamp'],
-                event= data['event'],
-                observations= data['observations']
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            observations=data["observations"],
         )
-          
-        repositories["event"].save_event(event)
-        return '', 200
 
+        repositories["event"].save_event(event)
+        return "", 200
 
     return app
