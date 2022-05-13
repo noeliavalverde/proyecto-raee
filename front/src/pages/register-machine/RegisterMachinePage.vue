@@ -6,13 +6,13 @@
   <input type="text" id="id_machine" v-model="washing_machine.id_machine">
 
   <label for="brand">Marca: </label>
-  <input type="text" id="brand" v-model="washing_machine.brand">
+  <input type="text" id="brand" v-model="washing_machine.observations.brand">
 
   <label for="model">Modelo: </label>
-  <input type="text" id="model" v-model="washing_machine.model">
+  <input type="text" id="model" v-model="washing_machine.observations.model">
 
-  <label for="register_date">Fecha: </label>
-  <input type="date" id="register_date" v-model="washing_machine.register_date">
+  <label for="timestamp">Fecha: </label>
+  <input type="date" id="timestamp" v-model="washing_machine.timestamp">
 
   <label for="employee">Operario: </label>
   <input type="text" id="employee" v-model="washing_machine.employee">
@@ -35,12 +35,22 @@
 export default {
     data(){
         return{
-            washing_machine:{}
+            washing_machine:{
+                id_machine: "",
+                employee: "",
+                timestamp:"",
+                event: "",
+                observations: {
+                    model:"",
+                    brand:"",
+                }
+            }
 
         }
     },
     methods:{
         async addMachine(){
+            this.washing_machine.event = "register"
             const settings={
                 method:"POST",
                 body:JSON.stringify(this.washing_machine),
@@ -49,7 +59,7 @@ export default {
                 },
 
             };
-            console.log("clickAddMachine", JSON.stringify(this.washing_machine))
+            
             await fetch("http://localhost:5000/api/process/register", settings);
             
             
