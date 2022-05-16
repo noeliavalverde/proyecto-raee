@@ -21,38 +21,34 @@ def main():
         event="register",
         observations={"brand": "samsung", "model": "samsung_3"},
     )
-    """
-     washer_machine_2 = Event(
+
+    washer_machine_2 = Event(
         id_machine="washing_machine_2",
-        brand="Balay",
-        model="Balay_2",
-        register_date="2022-05-10",
         employee="jeff_2",
+        timestamp="2022-05-10",
+        event="register",
+        observations={"brand": "Balay", "model": "Balay_2"},
     )
     washer_machine_3 = Event(
         id_machine="washing_machine_3",
-        brand="LG",
-        model="LG_3",
-        register_date="2022-05-20",
-        employee="jeff_3",
+        employee="jeff",
+        timestamp="2022-05-20",
+        event="register",
+        observations={"brand": "LG", "model": "LG_3"},
     )
+
     washer_machine_4 = Event(
         id_machine="washing_machine_4",
-        brand="BEKO",
-        model="BEKO_4",
-        register_date="2022-05-30",
-        employee="jeff_4",
+        timestamp="2022-05-30",
+        employee="jeff_2",
+        event="register",
+        observations={"brand": "BEKO", "model": "BEKO_4"},
     )
-    
-    """
 
     event_repository.save_event(washer_machine_1)
-    """
-      event_repository.save_machines(washer_machine_2)
-    event_repository.save_machines(washer_machine_3)
-    event_repository.save_machines(washer_machine_4)
-    
-    """
+    event_repository.save_event(washer_machine_2)
+    event_repository.save_event(washer_machine_3)
+    event_repository.save_event(washer_machine_4)
 
 
 if __name__ == "__main__":
