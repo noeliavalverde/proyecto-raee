@@ -46,4 +46,32 @@ def create_app(repositories):
         repositories["event"].save_event(event)
         return "", 200
 
+    @app.route("/api/process/diagnostic/exit", methods=["POST"])
+    def diagnostic_machine_exit():
+        data = request.json
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            observations=data["observations"],
+        )
+
+        repositories["event"].save_event(event)
+        return "", 200
+
+    @app.route("/api/process/repair/enter", methods=["POST"])
+    def repair_machine_enter():
+        data = request.json
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            observations=data["observations"],
+        )
+
+        repositories["event"].save_event(event)
+        return "", 200
+
     return app

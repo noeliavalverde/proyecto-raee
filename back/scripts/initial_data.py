@@ -14,6 +14,8 @@ def main():
 
     event_repository = EventRepository(database_path)
 
+    # REGISTERS
+
     washer_machine_1 = Event(
         id_machine="washing_machine_1",
         employee="jeff",
@@ -49,6 +51,36 @@ def main():
     event_repository.save_event(washer_machine_2)
     event_repository.save_event(washer_machine_3)
     event_repository.save_event(washer_machine_4)
+
+    # DIAGNOSTIC:
+
+    washer_machine_diagnostic_in = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-07",
+        event="diagnostic_in",
+        observations={},
+    )
+    event_repository.save_event(washer_machine_diagnostic_in)
+
+    washer_machine_diagnostic_out = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-08",
+        event="diagnostic_out",
+        observations={"next_event": "repair"},
+    )
+    event_repository.save_event(washer_machine_diagnostic_out)
+
+    # REPAIR
+    washer_machine_repair_in = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-07",
+        event="repair_in",
+        observations={},
+    )
+    event_repository.save_event(washer_machine_repair_in)
 
 
 if __name__ == "__main__":
