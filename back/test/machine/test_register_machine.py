@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from src.domain.events import EventRepository
 from src.lib.utils import temp_file
 from src.webserver import create_app
@@ -12,7 +12,7 @@ def test_should_register_one_machine():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.datetime.now().isoformat(),
+        "timestamp": datetime.today().strftime('%Y-%m-%d %H:%M:%S'),
         "event": "register",
         "observations": {
             "brand": "samsung",
@@ -21,4 +21,8 @@ def test_should_register_one_machine():
     }
 
     response = client.post("/api/process/register", json=event)
+    print (event)
     assert response.status_code == 200
+
+
+    

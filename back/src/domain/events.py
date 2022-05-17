@@ -1,12 +1,13 @@
 import sqlite3
 import json
-import datetime
+# import datetime
+from datetime import datetime, date
 
 class Event:
     def __init__(self, id_machine, employee, timestamp, event, observations):
         self.id_machine= id_machine
         self.employee= employee
-        self.timestamp= datetime.datetime.fromisoformat(timestamp)
+        self.timestamp= datetime.fromisoformat(timestamp).strftime('%Y-%m-%d %H:%M:%S')
         self.event= event
         self.observations= observations
 
@@ -14,7 +15,7 @@ class Event:
         return {
            "id_machine": self.id_machine,
             "employee": self.employee,
-            "timestamp": self.timestamp.isoformat(),
+            "timestamp": self.timestamp,
             "event": self.event,
             "observations": self.observations
         }
@@ -43,7 +44,7 @@ class EventRepository:
         cursor = conn.cursor()
         cursor.execute(sql_events)
         conn.commit()
-
+    date = datetime.today()
     def save_event(self, event):
         sql = """INSERT into events (id_machine, employee, timestamp, event, observations) values (
             :id_machine, :employee, :timestamp, :event, :observations
@@ -55,9 +56,10 @@ class EventRepository:
            {
                'id_machine':event.id_machine,
                'employee':event.employee,
-               'timestamp':event.timestamp,
+               'timestamp':datetime.fromisoformat(event.timestamp),
                'event':event.event,
                'observations':json.dumps(event.observations),
            }
         )
         conn.commit()
+       

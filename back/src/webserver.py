@@ -35,6 +35,7 @@ def create_app(repositories):
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
         data = request.json
+        print('-----------------', data)
         event = Event(
             id_machine=data["id_machine"],
             employee=data["employee"],
@@ -43,7 +44,8 @@ def create_app(repositories):
             observations=data["observations"],
         )
 
-        repositories["event"].save_event(event)
+        washer_event= repositories["event"].save_event(event)
+        print('----------', washer_event)
         return "", 200
 
     @app.route("/api/process/diagnostic/exit", methods=["POST"])
