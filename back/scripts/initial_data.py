@@ -82,6 +82,34 @@ def main():
     )
     event_repository.save_event(washer_machine_repair_in)
 
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-10",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+
+    # TEST
+    washer_machine_test_in = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-15",
+        event="test_in",
+        payload={},
+    )
+    event_repository.save_event(washer_machine_test_in)
+
+    washer_machine_test_out = Event(
+        id_machine="washing_machine_1",
+        employee="jeff",
+        timestamp="2022-05-10",
+        event="test_out",
+        payload={"vibration": "ok", "flow": "ok"},
+    )
+    event_repository.save_event(washer_machine_test_out)
+
 
 if __name__ == "__main__":
     main()

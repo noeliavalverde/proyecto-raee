@@ -74,4 +74,46 @@ def create_app(repositories):
         repositories["event"].save_event(event)
         return "", 200
 
+    @app.route("/api/process/repair/exit", methods=["POST"])
+    def repair_machine_exit():
+        data = request.json
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            payload=data["payload"],
+        )
+
+        repositories["event"].save_event(event)
+        return "", 200
+
+    @app.route("/api/process/test/enter", methods=["POST"])
+    def test_machine_enter():
+        data = request.json
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            payload=data["payload"],
+        )
+
+        repositories["event"].save_event(event)
+        return "", 200
+
+    @app.route("/api/process/test/exit", methods=["POST"])
+    def test_machine_exit():
+        data = request.json
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            payload=data["payload"],
+        )
+
+        repositories["event"].save_event(event)
+        return "", 200
+
     return app
