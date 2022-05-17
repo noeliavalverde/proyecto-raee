@@ -14,7 +14,7 @@ def test_should_repair_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "repair_in",
-        "observations": {},
+        "payload": {},
     }
 
     response = client.post("/api/process/repair/enter", json=event)

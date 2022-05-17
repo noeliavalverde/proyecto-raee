@@ -26,7 +26,7 @@ def create_app(repositories):
             employee=data["employee"],
             timestamp=data["timestamp"],
             event=data["event"],
-            observations=data["observations"],
+            payload=data["payload"],
         )
 
         repositories["event"].save_event(register_machine)
@@ -35,17 +35,15 @@ def create_app(repositories):
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
         data = request.json
-        print('-----------------', data)
         event = Event(
             id_machine=data["id_machine"],
             employee=data["employee"],
             timestamp=data["timestamp"],
             event=data["event"],
-            observations=data["observations"],
+            payload=data["payload"],
         )
 
-        washer_event= repositories["event"].save_event(event)
-        print('----------', washer_event)
+        washer_event = repositories["event"].save_event(event)
         return "", 200
 
     @app.route("/api/process/diagnostic/exit", methods=["POST"])
@@ -56,7 +54,7 @@ def create_app(repositories):
             employee=data["employee"],
             timestamp=data["timestamp"],
             event=data["event"],
-            observations=data["observations"],
+            payload=data["payload"],
         )
 
         repositories["event"].save_event(event)
@@ -70,7 +68,7 @@ def create_app(repositories):
             employee=data["employee"],
             timestamp=data["timestamp"],
             event=data["event"],
-            observations=data["observations"],
+            payload=data["payload"],
         )
 
         repositories["event"].save_event(event)

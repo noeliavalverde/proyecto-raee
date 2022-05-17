@@ -14,7 +14,7 @@ def test_should_diagnostic_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "diagnostic_in",
-        "observations": {},
+        "payload": {},
     }
 
     response = client.post("/api/process/diagnostic/enter", json=event)

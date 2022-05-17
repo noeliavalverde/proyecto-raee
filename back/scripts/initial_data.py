@@ -21,7 +21,7 @@ def main():
         employee="jeff",
         timestamp="2022-05-06",
         event="register",
-        observations={"brand": "samsung", "model": "samsung_3"},
+        payload={"brand": "samsung", "model": "samsung_3"},
     )
 
     washer_machine_2 = Event(
@@ -29,14 +29,14 @@ def main():
         employee="jeff_2",
         timestamp="2022-05-10",
         event="register",
-        observations={"brand": "Balay", "model": "Balay_2"},
+        payload={"brand": "Balay", "model": "Balay_2"},
     )
     washer_machine_3 = Event(
         id_machine="washing_machine_3",
         employee="jeff",
         timestamp="2022-05-20",
         event="register",
-        observations={"brand": "LG", "model": "LG_3"},
+        payload={"brand": "LG", "model": "LG_3"},
     )
 
     washer_machine_4 = Event(
@@ -44,7 +44,7 @@ def main():
         timestamp="2022-05-30",
         employee="jeff_2",
         event="register",
-        observations={"brand": "BEKO", "model": "BEKO_4"},
+        payload={"brand": "BEKO", "model": "BEKO_4"},
     )
 
     event_repository.save_event(washer_machine_1)
@@ -59,7 +59,7 @@ def main():
         employee="jeff",
         timestamp="2022-05-07",
         event="diagnostic_in",
-        observations={},
+        payload={},
     )
     event_repository.save_event(washer_machine_diagnostic_in)
 
@@ -68,7 +68,7 @@ def main():
         employee="jeff",
         timestamp="2022-05-08",
         event="diagnostic_out",
-        observations={"next_event": "repair"},
+        payload={"next_event": "repair"},
     )
     event_repository.save_event(washer_machine_diagnostic_out)
 
@@ -78,7 +78,7 @@ def main():
         employee="jeff",
         timestamp="2022-05-07",
         event="repair_in",
-        observations={},
+        payload={},
     )
     event_repository.save_event(washer_machine_repair_in)
 
