@@ -116,4 +116,10 @@ def create_app(repositories):
         repositories["event"].save_event(event)
         return "", 200
 
+    @app.route("/api/process/scrap_inform", methods=["GET"])
+    def get_info_for_scrap():
+
+        all_events = repositories["event"].get_events()
+        return object_to_json(all_events), 200
+
     return app
