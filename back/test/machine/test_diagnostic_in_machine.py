@@ -23,7 +23,7 @@ def test_should_diagnostic_one_machine():
                             {
                                 "step": "retirar tornillos de la pared trasera",
                                 "image": "",
-                                "is_completed": 1,
+                                "is_completed": 0,
                             },
                             {
                                 "step": "retirar la pared trasera",
