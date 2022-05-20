@@ -46,6 +46,8 @@ def create_app(repositories):
         washer_event = repositories["event"].save_event(event)
         return "", 200
 
+
+
     @app.route("/api/process/diagnostic/exit", methods=["POST"])
     def diagnostic_machine_exit():
         data = request.json
