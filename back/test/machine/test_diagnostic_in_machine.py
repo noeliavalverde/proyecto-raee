@@ -14,7 +14,33 @@ def test_should_diagnostic_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "diagnostic_in",
-        "payload": {},
+        "payload": [
+            {
+                "procedures": [
+                    {
+                        "title": "cambio de correa",
+                        "steps": [
+                            {
+                                "step": "retirar tornillos de la pared trasera",
+                                "image": "",
+                                "is_completed": 0,
+                            },
+                            {
+                                "step": "retirar la pared trasera",
+                                "image": "",
+                                "is_completed": 0,
+                            },
+                            {
+                                "step": "retirar la correa Poly-V",
+                                "image": "",
+                                "is_completed": 0,
+                            },
+                        ],
+                        "docs": [],
+                    },
+                ],
+            },
+        ],
     }
 
     response = client.post("/api/process/diagnostic/enter", json=event)

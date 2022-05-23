@@ -66,3 +66,23 @@ class EventRepository:
             },
         )
         conn.commit()
+
+    def get_events(self):
+        sql = """select * from events"""
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql)
+
+        data = cursor.fetchall()
+        result = []
+        for item in data:
+            event = Event(
+                id_machine=item["id_machine"],
+                employee=item["employee"],
+                timestamp=item["timestamp"],
+                event=item["event"],
+                payload=json.loads(item["payload"]),
+            )
+            result.append(event)
+        conn.close()
+        return result
