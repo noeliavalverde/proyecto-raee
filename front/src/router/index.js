@@ -18,6 +18,11 @@ const routes = [
     name: 'RegisterMachine',
     component: () => import('@/pages/register-machine/RegisterMachinePage.vue'),
   },
+  {
+    path: '/scrap-inform',
+    name: 'ScrapInform',
+    component: () => import('@/pages/scrap-inform/ScrapInformPage.vue'),
+  },
 ]
 
 const router = createRouter({
