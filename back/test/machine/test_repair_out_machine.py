@@ -14,7 +14,50 @@ def test_should_repair_out_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "repair_out",
-        "payload": {"next_event": "test"},
+        "payload": [
+            {"next_event": "test"},
+            {
+                "procedures": [
+                    {
+                        "title": "cambio de correa",
+                        "steps": [
+                            {
+                                "step": "retirar tornillos de la pared trasera",
+                                "steps": [
+                                    {
+                                        "step": "retirar tornillos de la pared trasera",
+                                        "image": "",
+                                        "is_completed": 1,
+                                    },
+                                    {
+                                        "step": "retirar la pared trasera",
+                                        "image": "",
+                                        "is_completed": 1,
+                                    },
+                                    {
+                                        "step": "retirar la correa Poly-V",
+                                        "image": "",
+                                        "is_completed": 1,
+                                    },
+                                ],
+                                "is_completed": 1,
+                            },
+                            {
+                                "step": "retirar la pared trasera",
+                                "image": "",
+                                "is_completed": 1,
+                            },
+                            {
+                                "step": "retirar la correa Poly-V",
+                                "image": "",
+                                "is_completed": 1,
+                            },
+                        ],
+                        "docs": [],
+                    },
+                ],
+            },
+        ],
     }
 
     response = client.post("/api/process/repair/exit", json=event)

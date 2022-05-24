@@ -15,31 +15,7 @@ def test_should_diagnostic_one_machine():
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "diagnostic_in",
         "payload": [
-            {
-                "procedures": [
-                    {
-                        "title": "cambio de correa",
-                        "steps": [
-                            {
-                                "step": "retirar tornillos de la pared trasera",
-                                "image": "",
-                                "is_completed": 0,
-                            },
-                            {
-                                "step": "retirar la pared trasera",
-                                "image": "",
-                                "is_completed": 0,
-                            },
-                            {
-                                "step": "retirar la correa Poly-V",
-                                "image": "",
-                                "is_completed": 0,
-                            },
-                        ],
-                        "docs": [],
-                    },
-                ],
-            },
+            {"docs": "Aqui va el enlace de un vide de como chekear una lavadora"}
         ],
     }
 

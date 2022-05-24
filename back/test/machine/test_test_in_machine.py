@@ -14,7 +14,49 @@ def test_should_test_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "test_in",
-        "payload": {},
+        "payload": [
+            {
+                "procedures": [
+                    {
+                        "title": "test number of vibration",
+                        "steps": [
+                            {
+                                "step": "retirar tornillos de la pared trasera",
+                                "steps": [
+                                    {
+                                        "step": "retirar tornillos de la pared trasera",
+                                        "image": "",
+                                        "is_completed": 0,
+                                    },
+                                    {
+                                        "step": "retirar la pared trasera",
+                                        "image": "",
+                                        "is_completed": 0,
+                                    },
+                                    {
+                                        "step": "retirar la correa Poly-V",
+                                        "image": "",
+                                        "is_completed": 0,
+                                    },
+                                ],
+                                "is_completed": 0,
+                            },
+                            {
+                                "step": "retirar la pared trasera",
+                                "image": "",
+                                "is_completed": 0,
+                            },
+                            {
+                                "step": "retirar la correa Poly-V",
+                                "image": "",
+                                "is_completed": 0,
+                            },
+                        ],
+                        "docs": [],
+                    },
+                ],
+            },
+        ],
     }
 
     response = client.post("/api/process/test/enter", json=event)
