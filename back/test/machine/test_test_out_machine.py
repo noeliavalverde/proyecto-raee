@@ -14,7 +14,12 @@ def test_should_test_out_one_machine():
         "employee": "Jeff",
         "timestamp": datetime.datetime.now().isoformat(),
         "event": "test_out",
-        "payload": {"vibration": "ok", "flow": "ok"},
+        "payload": {
+            "procedures": [
+                {"title": "test 1", "is_completed": 0},
+                {"title": "test 2", "is_completed": 0},
+            ],
+        },
     }
 
     response = client.post("/api/process/test/exit", json=event)
