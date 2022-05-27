@@ -86,3 +86,21 @@ class EventRepository:
             result.append(event)
         conn.close()
         return result
+
+    def get_last_event_by_id(self, id):
+        sql = "SELECT * FROM events  WHERE id_machine = :id_machine ORDER BY timestamp DESC LIMIT 1"
+
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, {"id_machine": id})
+
+        data = cursor.fetchone()
+
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event=data["event"],
+            payload=json.loads(data["payload"]),
+        )
+        return event
