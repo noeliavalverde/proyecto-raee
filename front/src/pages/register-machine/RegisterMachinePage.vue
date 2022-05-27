@@ -50,6 +50,9 @@ export default {
     },
     methods:{
         async addMachine(){
+            let today = today.toISOString().slice(0,10)
+
+            console.log(today)
             this.washing_machine.event = "register"
             const settings={
                 method:"POST",
