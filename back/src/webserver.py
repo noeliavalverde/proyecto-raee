@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from src.domain.events import Event
+from src.validations_endpoints.validations_general import *
 from flasgger import Swagger
 
 from src.lib.utils import object_to_json
@@ -84,8 +85,15 @@ def create_app(repositories):
             payload=data["payload"],
         )
 
-        repositories["event"].save_event(register_machine)
-        return "", 200
+        data_validated = validate_register(register_machine)
+
+        if data_validated == True:
+
+            repositories["event"].save_event(register_machine)
+            return "", 200
+
+        else:
+            return ("", 400)
 
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
