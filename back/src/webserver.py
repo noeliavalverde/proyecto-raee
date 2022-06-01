@@ -84,16 +84,26 @@ def create_app(repositories):
             event=data["event"],
             payload=data["payload"],
         )
+        event_dict = register_machine.to_dict()
+        id_machine = event_dict["id_machine"]
 
-        data_validated = validate_register(register_machine)
+        get_repeated = repositories["event"].get_machine_by_id(id_machine)
 
-        if data_validated == True:
+        if get_repeated == None:
 
-            repositories["event"].save_event(register_machine)
-            return "", 200
+            data_validated = validate_register_contains_brand_and_model(
+                register_machine
+            )
 
+            if data_validated == True:
+
+                repositories["event"].save_event(register_machine)
+                return "", 200
+
+            else:
+                return ("", 400)
         else:
-            return ("", 400)
+            return "", 400
 
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
@@ -465,5 +475,14 @@ def create_app(repositories):
 
         all_events = repositories["event"].get_events()
         return object_to_json(all_events), 200
+
+    @app.route("/api/process/<id_machine>", methods=["GET"])
+    def get_by_id(id_machine):
+
+        event_by_id = repositories["event"].get_machine_by_id(id_machine)
+        if event_by_id != None:
+            return object_to_json(event_by_id), 200
+        else:
+            return "", 400
 
     return app
