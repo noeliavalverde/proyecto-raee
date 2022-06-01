@@ -87,6 +87,30 @@ class EventRepository:
         conn.close()
         return result
 
+    def get_machine_by_id(self, id):
+        sql = """SELECT * FROM events  
+            WHERE id_machine=:id_machine
+            """
+
+        conn = self.create_conn()
+        cursor = conn.cursor()
+        cursor.execute(sql, {"id_machine": id})
+
+        data = cursor.fetchone()
+
+        if data == None:
+            return None
+        else:
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=json.loads(data["payload"]),
+            )
+            return event
+
+    # Revisar si este método sirve o eliminar
     def get_last_event_by_id(self, id):
         sql = "SELECT * FROM events  WHERE id_machine = :id_machine ORDER BY timestamp DESC LIMIT 1"
 
