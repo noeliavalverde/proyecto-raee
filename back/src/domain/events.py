@@ -87,7 +87,7 @@ class EventRepository:
         conn.close()
         return result
 
-    def get_machine_by_id(self, id):
+    def get_event_by_machine_id(self, id):
         sql = """SELECT * FROM events  
             WHERE id_machine=:id_machine
             """
