@@ -152,16 +152,19 @@ def create_app(repositories):
         """
 
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        washer_event = repositories["event"].save_event(event)
-        return "", 200
+            washer_event = repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/diagnostic/exit", methods=["POST"])
     def diagnostic_machine_exit():
@@ -212,16 +215,19 @@ def create_app(repositories):
         """
 
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        repositories["event"].save_event(event)
-        return "", 200
+            repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/repair/enter", methods=["POST"])
     def repair_machine_enter():
@@ -271,16 +277,19 @@ def create_app(repositories):
         """
 
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        repositories["event"].save_event(event)
-        return "", 200
+            repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/repair/exit", methods=["POST"])
     def repair_machine_exit():
@@ -334,16 +343,19 @@ def create_app(repositories):
         """
 
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        repositories["event"].save_event(event)
-        return "", 200
+            repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/test/enter", methods=["POST"])
     def test_machine_enter():
@@ -393,16 +405,19 @@ def create_app(repositories):
 
         """
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        repositories["event"].save_event(event)
-        return "", 200
+            repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/test/exit", methods=["POST"])
     def test_machine_exit():
@@ -453,16 +468,19 @@ def create_app(repositories):
 
         """
         data = request.json
-        event = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            event = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        repositories["event"].save_event(event)
-        return "", 200
+            repositories["event"].save_event(event)
+            return "", 200
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/scrap_inform", methods=["GET"])
     def get_info_for_scrap():
