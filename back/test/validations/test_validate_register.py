@@ -14,7 +14,7 @@ def test_should_validate_json_contains_brand_machine():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": "2022-06-15 09:33",
         "event": "register",
         "payload": {
             "brand": "",
@@ -35,7 +35,7 @@ def test_should_validate_json_contains_model_machine():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": "2022-06-15 09:33",
         "event": "register",
         "payload": {
             "brand": "Balay",
@@ -56,7 +56,7 @@ def test_should_validate_json_not_contains_space_at_model_or_brand():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": "2022-06-15 09:33",
         "event": "register",
         "payload": {
             "brand": " ",
@@ -77,7 +77,7 @@ def test_should_validate_register_with_new_id():
     existing_event = Event(
         id_machine="machine_1",
         employee="Jeff",
-        timestamp=datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        timestamp="2022-06-15 09:33",
         event="register",
         payload={
             "brand": "Balay",
@@ -90,7 +90,7 @@ def test_should_validate_register_with_new_id():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": "2022-06-15 09:33",
         "event": "register",
         "payload": {
             "brand": "BAL5264",
@@ -98,25 +98,4 @@ def test_should_validate_register_with_new_id():
         },
     }
     response = client.post("/api/process/register", json=event)
-    assert response.status_code == 400
-
-
-def test_should_get_none_id():
-    event_repository = EventRepository(temp_file())
-    app = create_app(repositories={"event": event_repository})
-    client = app.test_client()
-
-    existing_event = Event(
-        id_machine="machine_1",
-        employee="Jeff",
-        timestamp=datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
-        event="register",
-        payload={
-            "brand": "Balay",
-            "model": "Balay2365",
-        },
-    )
-    event_repository.save_event(existing_event)
-    response = client.get("/api/process/machine_2")
-
     assert response.status_code == 400
