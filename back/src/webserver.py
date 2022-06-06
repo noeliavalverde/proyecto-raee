@@ -77,24 +77,27 @@ def create_app(repositories):
 
         """
         data = request.json
-        register_machine = Event(
-            id_machine=data["id_machine"],
-            employee=data["employee"],
-            timestamp=data["timestamp"],
-            event=data["event"],
-            payload=data["payload"],
-        )
+        if validate_datetime(data["timestamp"]):
+            register_machine = Event(
+                id_machine=data["id_machine"],
+                employee=data["employee"],
+                timestamp=data["timestamp"],
+                event=data["event"],
+                payload=data["payload"],
+            )
 
-        if validate_id_not_existing(register_machine, repositories):
-            if validate_register_contains_brand_and_model(register_machine):
+            if validate_id_not_existing(register_machine, repositories):
+                if validate_register_contains_brand_and_model(register_machine):
 
-                repositories["event"].save_event(register_machine)
-                return "", 200
+                    repositories["event"].save_event(register_machine)
+                    return "", 200
+                else:
+                    return ("Empty brand or model fields", 400)
             else:
-                return ("Empty brand or model fields", 400)
-        else:
 
-            return ("ID already existing", 400)
+                return ("ID already existing", 400)
+        else:
+            return ("Not isoformat date", 400)
 
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
