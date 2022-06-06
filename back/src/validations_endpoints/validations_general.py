@@ -1,6 +1,8 @@
 import json
+from multiprocessing.sharedctypes import Value
 from src.domain.events import Event, EventRepository
 import sqlite3
+from datetime import datetime
 
 
 def validate_register_contains_brand_and_model(registration_machine):
@@ -48,3 +50,12 @@ def validate_id_not_existing(event, repositories):
         return True
     else:
         return False
+
+
+def validate_datetime(date_str):
+
+    try:
+        datetime.fromisoformat(date_str)
+    except ValueError:
+        return False
+    return True
