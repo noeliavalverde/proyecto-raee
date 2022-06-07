@@ -86,7 +86,7 @@ def create_app(repositories):
                 payload=data["payload"],
             )
 
-            if validate_id_not_existing(register_machine, repositories):
+            if not validate_id_already_exists(register_machine, repositories):
                 if validate_register_contains_brand_and_model(register_machine):
 
                     repositories["event"].save_event(register_machine)
@@ -161,7 +161,7 @@ def create_app(repositories):
                 payload=data["payload"],
             )
 
-            washer_event = repositories["event"].save_event(event)
+            repositories["event"].save_event(event)
             return "", 200
         else:
             return ("Not isoformat date", 400)

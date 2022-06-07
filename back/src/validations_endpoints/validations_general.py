@@ -40,16 +40,16 @@ def validate_register_contains_not_empty_id(registration_machine):
         return False
 
 
-def validate_id_not_existing(event, repositories):
+def validate_id_already_exists(event, repositories):
 
     event_dict = event.to_dict()
     id_machine = event_dict["id_machine"]
     event_by_id = repositories["event"].get_event_by_machine_id(id_machine)
 
     if event_by_id == None:
-        return True
-    else:
         return False
+    else:
+        return True
 
 
 def validate_datetime(date_str):
