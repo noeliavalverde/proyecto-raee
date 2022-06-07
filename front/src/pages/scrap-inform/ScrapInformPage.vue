@@ -27,7 +27,7 @@
                 <td>{{item.timestamp}}</td>
                 <td>{{item.event}}</td>
                 <td >
-                <button class="info" @click="moreInfo"> + Info</button>
+                <button class="info" @click="this.$router.push({name: 'EventDetail', params:{id:item.id_machine}})"> + Info</button>
                 </td>
             </tr>
             
@@ -60,7 +60,8 @@ export default {
         onClicked(){
             this.displayMachine = true
 
-        }
+        },
+
     }
 
 }

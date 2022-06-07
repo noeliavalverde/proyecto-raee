@@ -83,9 +83,50 @@ def main():
     event_repository.save_event(washer_machine_repair_in)
 
     washer_machine_repair_out = Event(
-        id_machine="washing_machine_1",
-        employee="operario-011",
-        timestamp="2022-05-10",
+        id_machine="washing_machine_7",
+        employee="operario-07",
+        timestamp="2022-05-11",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_8",
+        employee="operario-09",
+        timestamp="2022-05-11",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_9",
+        employee="operario-08",
+        timestamp="2022-05-12",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_10",
+        employee="operario-09",
+        timestamp="2022-05-12",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_11",
+        employee="operario-08",
+        timestamp="2022-05-13",
+        event="repair_out",
+        payload={"next_event": "test"},
+    )
+    event_repository.save_event(washer_machine_repair_out)
+    washer_machine_repair_out = Event(
+        id_machine="washing_machine_12",
+        employee="operario-08",
+        timestamp="2022-05-14",
         event="repair_out",
         payload={"next_event": "test"},
     )
