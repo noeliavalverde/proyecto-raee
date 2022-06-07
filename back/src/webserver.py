@@ -147,6 +147,9 @@ def create_app(repositories):
         responses:
           200:
             description: Returns a 200 response. Diagnostic in event registered.
+          400:
+            description: Returns 400. The id_machine introduced is not already registered, or invalid isoformat date.
+
 
 
         """
@@ -160,9 +163,11 @@ def create_app(repositories):
                 event=data["event"],
                 payload=data["payload"],
             )
-
-            repositories["event"].save_event(event)
-            return "", 200
+            if validate_id_already_exists(event, repositories):
+                repositories["event"].save_event(event)
+                return "", 200
+            else:
+                return ("ID not existing", 400)
         else:
             return ("Not isoformat date", 400)
 

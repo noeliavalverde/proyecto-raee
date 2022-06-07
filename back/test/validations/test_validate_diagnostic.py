@@ -1,15 +1,15 @@
-import datetime
 from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 
-def test_should_diagnostic_one_machine():
+def test_should_already_exist_id_machine_at_diagnostic_event():
+
     event_repository = EventRepository(temp_file())
     app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
-    register_event = Event(
+    existing_event = Event(
         id_machine="machine_1",
         employee="Jeff",
         timestamp="2022-06-15 09:33",
@@ -20,17 +20,17 @@ def test_should_diagnostic_one_machine():
         },
     )
 
-    event_repository.save_event(register_event)
+    event_repository.save_event(existing_event)
 
-    diagnostic_event = {
-        "id_machine": "machine_1",
+    event = {
+        "id_machine": "machine_2",
         "employee": "Jeff",
         "timestamp": "2022-06-15 09:33",
-        "event": "diagnostic_in",
-        "payload": [
-            {"docs": "Aqui va el enlace de un vide de como chekear una lavadora"}
-        ],
+        "event": "diagnostic",
+        "payload": {
+            "brand": "BAL5264",
+            "model": "Balay",
+        },
     }
-
-    response = client.post("/api/process/diagnostic/enter", json=diagnostic_event)
-    assert response.status_code == 200
+    response = client.post("/api/process/diagnostic/enter", json=event)
+    assert response.status_code == 400
