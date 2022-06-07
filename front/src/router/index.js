@@ -23,6 +23,12 @@ const routes = [
     name: 'ScrapInform',
     component: () => import('@/pages/scrap-inform/ScrapInformPage.vue'),
   },
+  {
+    path: '/process/:id',
+    name: 'EventDetail',
+    component: () => import('@/pages/details/EventDetailPage.vue'),
+    props:true
+  },
 ]
 
 const router = createRouter({
