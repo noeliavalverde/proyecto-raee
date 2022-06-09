@@ -2,7 +2,7 @@ import datetime
 from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
-from src.domain.projections.system import system_current_state
+from src.domain.projections.supplyline import supply_line_current_state
 
 
 def test_should_get_all_machines_in_diagnostic():
@@ -71,7 +71,7 @@ def test_should_get_all_machines_in_diagnostic():
     for event in events_list:
         event_repository.save_event(event)
 
-    expected = system_current_state(event_repository)
+    expected = supply_line_current_state(event_repository)
 
     assert expected["registered"] == 0
     assert expected["repair_in"] == 2
