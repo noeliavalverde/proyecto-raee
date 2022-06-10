@@ -61,5 +61,3 @@ def test_should_repair_one_machine():
 
     response = client.post("/api/process/repair/enter", json=event)
     assert response.status_code == 200
-
-    kkkk = [{}, {}]
