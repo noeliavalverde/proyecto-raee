@@ -12,7 +12,7 @@ def test_should_register_one_machine():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": datetime.today().strftime("%Y-%m-%d %H:%M:%S"),
+        "timestamp": "2022-08-05 22:36:00",
         "event": "register",
         "payload": {
             "brand": "samsung",
@@ -21,5 +21,4 @@ def test_should_register_one_machine():
     }
 
     response = client.post("/api/process/register", json=event)
-    print(event)
     assert response.status_code == 200
