@@ -221,16 +221,20 @@ def create_app(repositories):
 
         data = request.json
         if validate_datetime(data["timestamp"]):
-            event = Event(
+            diagnostic_event = Event(
                 id_machine=data["id_machine"],
                 employee=data["employee"],
                 timestamp=data["timestamp"],
                 event=data["event"],
                 payload=data["payload"],
             )
-
-            repositories["event"].save_event(event)
-            return "", 200
+            if validate_in_event_is_already_registered(
+                diagnostic_event, "diagnostic_in", repositories
+            ):
+                repositories["event"].save_event(diagnostic_event)
+                return "", 200
+            else:
+                return ("Not already registered DIAGNOSTIC_IN event", 400)
         else:
             return ("Not isoformat date", 400)
 
@@ -496,7 +500,7 @@ def create_app(repositories):
     @app.route("/api/process/<id_machine>", methods=["GET"])
     def get_by_id(id_machine):
 
-        event = repositories["event"].get_event_by_machine_id(id_machine)
+        event = repositories["event"].get_events_by_machine_id(id_machine)
         return object_to_json(event)
 
     return app
