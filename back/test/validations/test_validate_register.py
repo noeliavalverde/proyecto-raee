@@ -90,7 +90,7 @@ def test_should_validate_register_with_new_id():
     event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": "2022-06-15 09:33",
+        "timestamp": "2022-06-20 09:33",
         "event": "register",
         "payload": {
             "brand": "BAL5264",

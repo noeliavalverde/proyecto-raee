@@ -234,7 +234,7 @@ def create_app(repositories):
                 repositories["event"].save_event(diagnostic_event)
                 return "", 200
             else:
-                return ("Not already registered DIAGNOSTIC_IN event", 400)
+                return ("ID not already registered at DIAGNOSTIC_IN event", 400)
         else:
             return ("Not isoformat date", 400)
 
@@ -352,17 +352,23 @@ def create_app(repositories):
         """
 
         data = request.json
+
         if validate_datetime(data["timestamp"]):
-            event = Event(
+            repair_event = Event(
                 id_machine=data["id_machine"],
                 employee=data["employee"],
                 timestamp=data["timestamp"],
                 event=data["event"],
                 payload=data["payload"],
             )
+            if validate_in_event_is_already_registered(
+                repair_event, "repair_in", repositories
+            ):
 
-            repositories["event"].save_event(event)
-            return "", 200
+                repositories["event"].save_event(repair_event)
+                return "", 200
+            else:
+                return ("ID not already registered at REPAIR_IN event", 400)
         else:
             return ("Not isoformat date", 400)
 

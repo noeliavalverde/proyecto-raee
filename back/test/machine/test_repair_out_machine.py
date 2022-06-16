@@ -1,64 +1,31 @@
 import datetime
-from src.domain.events import EventRepository
+from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 
 def test_should_repair_out_one_machine():
-    registered_machine = EventRepository(temp_file())
-    app = create_app(repositories={"event": registered_machine})
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
-    event = {
-        "id_machine": "machine_1",
+    repair_in_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2022-06-15 09:33:00",
+        event="repair_in",
+        payload=[],
+    )
+
+    event_repository.save_event(repair_in_event)
+
+    repair_out_event = {
+        "id_machine": "machine-1",
         "employee": "Jeff",
-        "timestamp": datetime.datetime.now().isoformat(),
+        "timestamp": "2022-06-20 09:33:00",
         "event": "repair_out",
-        "payload": [
-            {"next_event": "test"},
-            {
-                "procedures": [
-                    {
-                        "title": "cambio de correa",
-                        "steps": [
-                            {
-                                "step": "retirar tornillos de la pared trasera",
-                                "steps": [
-                                    {
-                                        "step": "retirar tornillos de la pared trasera",
-                                        "image": "",
-                                        "is_completed": 1,
-                                    },
-                                    {
-                                        "step": "retirar la pared trasera",
-                                        "image": "",
-                                        "is_completed": 1,
-                                    },
-                                    {
-                                        "step": "retirar la correa Poly-V",
-                                        "image": "",
-                                        "is_completed": 1,
-                                    },
-                                ],
-                                "is_completed": 1,
-                            },
-                            {
-                                "step": "retirar la pared trasera",
-                                "image": "",
-                                "is_completed": 1,
-                            },
-                            {
-                                "step": "retirar la correa Poly-V",
-                                "image": "",
-                                "is_completed": 1,
-                            },
-                        ],
-                        "docs": [],
-                    },
-                ],
-            },
-        ],
+        "payload": [],
     }
 
-    response = client.post("/api/process/repair/exit", json=event)
+    response = client.post("/api/process/repair/exit", json=repair_out_event)
     assert response.status_code == 200
