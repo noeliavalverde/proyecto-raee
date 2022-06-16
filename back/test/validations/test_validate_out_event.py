@@ -67,3 +67,20 @@ def test_should_validate_repair_out_not_allowed_if_not_repair_in_registered():
 
     response = client.post("/api/process/repair/exit", json=event_repair_out)
     assert response.status_code == 400
+
+
+def test_should_validate_test_out_not_allowed_if_not_test_in_registered():
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
+    client = app.test_client()
+
+    event_test_out = {
+        "id_machine": "machine-1",
+        "employee": "Jeff",
+        "timestamp": "2022-06-15 09:33",
+        "event": "test_out",
+        "payload": {},
+    }
+
+    response = client.post("/api/process/test/exit", json=event_test_out)
+    assert response.status_code == 400

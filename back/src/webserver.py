@@ -484,16 +484,23 @@ def create_app(repositories):
         """
         data = request.json
         if validate_datetime(data["timestamp"]):
-            event = Event(
+            test_event = Event(
                 id_machine=data["id_machine"],
                 employee=data["employee"],
                 timestamp=data["timestamp"],
                 event=data["event"],
                 payload=data["payload"],
             )
+            if validate_in_event_is_already_registered(
+                test_event, "test_in", repositories
+            ):
 
-            repositories["event"].save_event(event)
-            return "", 200
+                repositories["event"].save_event(test_event)
+                return "", 200
+
+            else:
+                return ("ID not already registered at TEST_IN event", 400)
+
         else:
             return ("Not isoformat date", 400)
 
