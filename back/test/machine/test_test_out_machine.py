@@ -1,25 +1,30 @@
 import datetime
-from src.domain.events import EventRepository
+from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 
 def test_should_test_out_one_machine():
-    registered_machine = EventRepository(temp_file())
-    app = create_app(repositories={"event": registered_machine})
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
+    test_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2035-05-30 17:26:00",
+        event="test_in",
+        payload={},
+    )
+
+    event_repository.save_event(test_event)
+
     event = {
-        "id_machine": "machine_1",
-        "employee": "Jeff",
-        "timestamp": datetime.datetime.now().isoformat(),
+        "id_machine": "machine-1",
+        "employee": "operario-007",
+        "timestamp": "2035-05-30 17:26:00",
         "event": "test_out",
-        "payload": {
-            "procedures": [
-                {"title": "test 1", "is_completed": 0},
-                {"title": "test 2", "is_completed": 0},
-            ],
-        },
+        "payload": {},
     }
 
     response = client.post("/api/process/test/exit", json=event)
