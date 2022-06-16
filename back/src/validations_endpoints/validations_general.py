@@ -56,12 +56,14 @@ def validate_in_event_is_already_registered(event, event_to_check, repositories)
     event_dict = event.to_dict()
     id_machine = event_dict["id_machine"]
     events_list = repositories["event"].get_events_by_machine_id(id_machine)
+
     for item in events_list:
         item_dict = item.to_dict()
+
         if item_dict["event"] == event_to_check:
             return True
-        else:
-            return False
+
+    return False
 
 
 def validate_datetime(date_str):
