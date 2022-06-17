@@ -29,3 +29,30 @@ def test_should_test_out_one_machine():
 
     response = client.post("/api/process/test/exit", json=event)
     assert response.status_code == 200
+
+
+def test_should_not_save_one_machine_with_incorrect_event_test_out_name():
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
+    client = app.test_client()
+
+    test_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2022-05-30 17:26:00",
+        event="test_in",
+        payload={},
+    )
+
+    event_repository.save_event(test_event)
+
+    event = {
+        "id_machine": "machine-1",
+        "employee": "operario-007",
+        "timestamp": "2022-05-30 17:27:00",
+        "event": "testout",
+        "payload": {},
+    }
+
+    response = client.post("/api/process/test/exit", json=event)
+    assert response.status_code == 400

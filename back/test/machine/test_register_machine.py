@@ -22,3 +22,23 @@ def test_should_register_one_machine():
 
     response = client.post("/api/process/register", json=event)
     assert response.status_code == 200
+
+
+def test_should__not_register_one_machine_with_incorrect_event_name():
+    registered_machine = EventRepository(temp_file())
+    app = create_app(repositories={"event": registered_machine})
+    client = app.test_client()
+
+    event = {
+        "id_machine": "machine_1",
+        "employee": "Jeff",
+        "timestamp": "2022-08-05 22:36:00",
+        "event": "regiser",
+        "payload": {
+            "brand": "samsung",
+            "model": "samsung_3",
+        },
+    }
+
+    response = client.post("/api/process/register", json=event)
+    assert response.status_code == 400

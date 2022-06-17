@@ -34,3 +34,35 @@ def test_should_test_one_machine():
 
     response = client.post("/api/process/test/enter", json=event)
     assert response.status_code == 200
+
+
+def test_should_not_save_one_machine_with_incorrect_event_test_in_name():
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
+    client = app.test_client()
+
+    register_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2022-05-08 10:06",
+        event="diagnostic_out",
+        payload={"brand": "balay", "model": "bal2525"},
+    )
+
+    event_repository.save_event(register_event)
+
+    event = {
+        "id_machine": "machine-1",
+        "employee": "Jeff",
+        "timestamp": "2022-07-08 10:06",
+        "event": "in_test",
+        "payload": {
+            "procedures": [
+                {"title": "test 1", "is_completed": 0},
+                {"title": "test 2", "is_completed": 0},
+            ],
+        },
+    }
+
+    response = client.post("/api/process/test/enter", json=event)
+    assert response.status_code == 400
