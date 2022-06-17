@@ -58,7 +58,7 @@ def test_should_get_how_many_machines_are_in_each_event():
     current_event_classified_by_id_machine = supply_line_current_state(
         all_events_classified_by_id_machine
     )
-    # Method to test:
+    # Function to test:
     # It checks every machine's current event and and adds 1 in the event's counter
     number_of_machines_in_each_event = get_number_of_machines_in_each_event(
         current_event_classified_by_id_machine

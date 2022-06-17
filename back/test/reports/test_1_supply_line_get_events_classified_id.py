@@ -91,8 +91,8 @@ def test_should_get_all_machines_in_its_last_event():
             },
         ],
     }
-    # Method to test: It returns a list of dictionaries with 'id-machine' as key
-    # and the list of its event as value
+    # Function to test: get_all_events_classified_by_id_machine
+    # It returns a dictionary with each ID Machine as key and the List of its Events as value
     classified_list = get_all_events_classified_by_id_machine(events_list)
 
     assert expected_list["machine-1"][0]["event"] == "register"

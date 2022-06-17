@@ -72,7 +72,7 @@ def test_should_get_machines_in_their_current_event_and_its_info():
     id_machine_with_its_events_dict = get_all_events_classified_by_id_machine(
         events_list
     )
-    # Method to test, it should return all the info of the current events of each washing machine
+    # Function to test, it should return all the info of the current events of each washing machine
     # and also, its brand and model data.
     all_current_info_list = supply_line_current_state(id_machine_with_its_events_dict)
 
