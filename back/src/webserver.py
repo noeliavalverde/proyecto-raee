@@ -1,7 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from src.domain.events import Event
 from src.validations_endpoints.validations_general import *
+from src.domain.projections.supplyline import *
+
 from flasgger import Swagger
 
 from src.lib.utils import object_to_json
@@ -597,5 +599,47 @@ def create_app(repositories):
 
         event = repositories["event"].get_events_by_machine_id(id_machine)
         return object_to_json(event)
+
+    # Supply line routes
+
+    @app.route("/api/analysis/collector", methods=["GET"])
+    def get_collector():
+
+        all_events_collected = supply_line_state_collector(repositories["event"])
+
+        return all_events_collected, 200
+
+    @app.route("/api/analysis/number_of_machines_in_each_event", methods=["GET"])
+    def getnumber_of_machines_in_each_event():
+
+        all_events = repositories["event"].get_events()
+        # devuelve diccionario con key id_machine
+        all_events_classified_by_id_machine = get_all_events_classified_by_id_machine(
+            all_events
+        )
+
+        current_event_classified_by_id_machine = supply_line_current_state(
+            all_events_classified_by_id_machine
+        )
+        number_of_machines_in_each_event = get_number_of_machines_in_each_event(
+            current_event_classified_by_id_machine
+        )
+
+        return number_of_machines_in_each_event, 200
+
+    @app.route("/api/analysis/supply_line_current_state", methods=["GET"])
+    def get_id_machine_in_current_event():
+
+        all_events = repositories["event"].get_events()
+        # devuelve diccionario con key id_machine
+        all_events_classified_by_id_machine = get_all_events_classified_by_id_machine(
+            all_events
+        )
+
+        current_event_classified_by_id_machine = supply_line_current_state(
+            all_events_classified_by_id_machine
+        )
+
+        return jsonify(current_event_classified_by_id_machine), 200
 
     return app
