@@ -1,18 +1,28 @@
 import datetime
-from src.domain.events import EventRepository
+from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 
 def test_should_test_one_machine():
-    registered_machine = EventRepository(temp_file())
-    app = create_app(repositories={"event": registered_machine})
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
+    register_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2022-05-08 10:06",
+        event="diagnostic_out",
+        payload={"brand": "balay", "model": "bal2525"},
+    )
+
+    event_repository.save_event(register_event)
+
     event = {
-        "id_machine": "machine_1",
+        "id_machine": "machine-1",
         "employee": "Jeff",
-        "timestamp": datetime.datetime.now().isoformat(),
+        "timestamp": "2022-07-08 10:06",
         "event": "test_in",
         "payload": {
             "procedures": [

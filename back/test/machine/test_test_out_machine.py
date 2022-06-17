@@ -12,7 +12,7 @@ def test_should_test_out_one_machine():
     test_event = Event(
         id_machine="machine-1",
         employee="operario-007",
-        timestamp="2035-05-30 17:26:00",
+        timestamp="2022-05-30 17:26:00",
         event="test_in",
         payload={},
     )
@@ -22,7 +22,7 @@ def test_should_test_out_one_machine():
     event = {
         "id_machine": "machine-1",
         "employee": "operario-007",
-        "timestamp": "2035-05-30 17:26:00",
+        "timestamp": "2022-05-30 17:27:00",
         "event": "test_out",
         "payload": {},
     }

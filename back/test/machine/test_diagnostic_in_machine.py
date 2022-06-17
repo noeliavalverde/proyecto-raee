@@ -25,7 +25,7 @@ def test_should_diagnostic_one_machine():
     diagnostic_event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
-        "timestamp": "2022-06-15 09:33",
+        "timestamp": "2022-06-15 09:34",
         "event": "diagnostic_in",
         "payload": [
             {"docs": "Aqui va el enlace de un vide de como chekear una lavadora"}

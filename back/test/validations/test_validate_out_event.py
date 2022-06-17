@@ -14,14 +14,14 @@ def test_should_validate_one_event_must_be_registered_in_to_be_in_out():
     event_register = Event(
         id_machine="machine-1",
         employee="operario-007",
-        timestamp="2035-05-08 10:06",
+        timestamp="2022-05-08 10:06",
         event="register",
         payload={"brand": "balay", "model": "bal2525"},
     )
     event_diagnostic = Event(
         id_machine="machine-1",
         employee="operario-007",
-        timestamp="2035-05-08 10:06",
+        timestamp="2022-05-08 10:07",
         event="diagnostic_in",
         payload={},
     )

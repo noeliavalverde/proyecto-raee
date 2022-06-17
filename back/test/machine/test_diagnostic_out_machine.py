@@ -12,7 +12,7 @@ def test_should_diagnostic_out_one_machine():
     event_diagnostic = Event(
         id_machine="machine-1",
         employee="operario-007",
-        timestamp="2035-05-08 10:06",
+        timestamp="2022-05-08 10:06",
         event="diagnostic_in",
         payload={},
     )
@@ -22,7 +22,7 @@ def test_should_diagnostic_out_one_machine():
     event = {
         "id_machine": "machine-1",
         "employee": "Jeff",
-        "timestamp": datetime.datetime.now().isoformat(),
+        "timestamp": "2022-05-08 10:07",
         "event": "diagnostic_out",
         "payload": [
             {"next_event": "repair"},

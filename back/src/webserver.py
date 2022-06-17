@@ -163,11 +163,16 @@ def create_app(repositories):
                 event=data["event"],
                 payload=data["payload"],
             )
-            if validate_id_already_exists(event, repositories):
-                repositories["event"].save_event(event)
-                return "", 200
+            if validate_previous_event_is_already_registered(
+                event, "register", repositories
+            ):
+                if validate_id_already_exists(event, repositories):
+                    repositories["event"].save_event(event)
+                    return "", 200
+                else:
+                    return ("ID not already registered at REGISTER event", 400)
             else:
-                return ("ID not existing", 400)
+                return ("Introduced date is previous than register date", 400)
         else:
             return ("Not isoformat date", 400)
 
@@ -228,13 +233,18 @@ def create_app(repositories):
                 event=data["event"],
                 payload=data["payload"],
             )
-            if validate_in_event_is_already_registered(
+            if validate_datetime_is_later_than_previous_event(
                 diagnostic_event, "diagnostic_in", repositories
             ):
-                repositories["event"].save_event(diagnostic_event)
-                return "", 200
+                if validate_previous_event_is_already_registered(
+                    diagnostic_event, "diagnostic_in", repositories
+                ):
+                    repositories["event"].save_event(diagnostic_event)
+                    return "", 200
+                else:
+                    return ("ID not already registered at DIAGNOSTIC_IN event", 400)
             else:
-                return ("ID not already registered at DIAGNOSTIC_IN event", 400)
+                return ("Introduced date is previous than DIAGNOSTIC_IN date", 400)
         else:
             return ("Not isoformat date", 400)
 
@@ -287,16 +297,26 @@ def create_app(repositories):
 
         data = request.json
         if validate_datetime(data["timestamp"]):
-            event = Event(
+            repair_event = Event(
                 id_machine=data["id_machine"],
                 employee=data["employee"],
                 timestamp=data["timestamp"],
                 event=data["event"],
                 payload=data["payload"],
             )
+            if validate_datetime_is_later_than_previous_event(
+                repair_event, "diagnostic_out", repositories
+            ):
+                if validate_previous_event_is_already_registered(
+                    repair_event, "diagnostic_out", repositories
+                ):
+                    repositories["event"].save_event(repair_event)
+                    return "", 200
+                else:
+                    return ("ID not already registered at DIAGNOSTIC_OUT event", 400)
+            else:
+                return ("Introduced date is previous than diagnostic_out date", 400)
 
-            repositories["event"].save_event(event)
-            return "", 200
         else:
             return ("Not isoformat date", 400)
 
@@ -361,14 +381,20 @@ def create_app(repositories):
                 event=data["event"],
                 payload=data["payload"],
             )
-            if validate_in_event_is_already_registered(
+            if validate_datetime_is_later_than_previous_event(
                 repair_event, "repair_in", repositories
             ):
+                if validate_previous_event_is_already_registered(
+                    repair_event, "repair_in", repositories
+                ):
 
-                repositories["event"].save_event(repair_event)
-                return "", 200
+                    repositories["event"].save_event(repair_event)
+                    return "", 200
+                else:
+                    return ("ID not already registered at REPAIR_IN event", 400)
             else:
-                return ("ID not already registered at REPAIR_IN event", 400)
+                return ("Introduced date is previous than REPAIR_IN date", 400)
+
         else:
             return ("Not isoformat date", 400)
 
@@ -421,16 +447,26 @@ def create_app(repositories):
         """
         data = request.json
         if validate_datetime(data["timestamp"]):
-            event = Event(
+            test_event = Event(
                 id_machine=data["id_machine"],
                 employee=data["employee"],
                 timestamp=data["timestamp"],
                 event=data["event"],
                 payload=data["payload"],
             )
+            if validate_datetime_is_later_than_previous_event(
+                test_event, "diagnostic_out", repositories
+            ):
+                if validate_previous_event_is_already_registered(
+                    test_event, "diagnostic_out", repositories
+                ):
+                    repositories["event"].save_event(test_event)
+                    return "", 200
+                else:
+                    return ("ID not already registered at DIAGNOSTIC_OUT event", 400)
+            else:
+                return ("Introduced date is previous than DIAGNOSTIC_OUT date", 400)
 
-            repositories["event"].save_event(event)
-            return "", 200
         else:
             return ("Not isoformat date", 400)
 
@@ -491,15 +527,20 @@ def create_app(repositories):
                 event=data["event"],
                 payload=data["payload"],
             )
-            if validate_in_event_is_already_registered(
+            if validate_datetime_is_later_than_previous_event(
                 test_event, "test_in", repositories
             ):
+                if validate_previous_event_is_already_registered(
+                    test_event, "test_in", repositories
+                ):
 
-                repositories["event"].save_event(test_event)
-                return "", 200
+                    repositories["event"].save_event(test_event)
+                    return "", 200
 
+                else:
+                    return ("ID not already registered at TEST_IN event", 400)
             else:
-                return ("ID not already registered at TEST_IN event", 400)
+                return ("Introduced date is previous than DIAGNOSTIC_OUT date", 400)
 
         else:
             return ("Not isoformat date", 400)
