@@ -255,7 +255,6 @@ def create_app(repositories):
                         - id_machine
                         - employee
                         - timestamp
-                        - event
                         - payload
                     properties:
                         id_machine:
@@ -271,15 +270,9 @@ def create_app(repositories):
                             description: Date in isoformat
                             example: "2022-05-25 00:00:00"
                             pattern: YY-MM-DD hh:mm:ss
-                        event:
-                            type: string
-                            description: Specific event
-                            example: repair_in
-                            default: repair_in
                         payload:
                             type: object
                             example: {}
-
 
         responses:
           200:
@@ -289,35 +282,31 @@ def create_app(repositories):
         """
 
         data = request.json
-        if data["event"] == "repair_in":
-            if validate_datetime(data["timestamp"]):
-                repair_event = Event(
-                    id_machine=data["id_machine"],
-                    employee=data["employee"],
-                    timestamp=data["timestamp"],
-                    event=data["event"],
-                    payload=data["payload"],
-                )
-                if validate_datetime_is_later_than_previous_event(
-                    repair_event, "diagnostic_out", repositories
-                ):
-                    if validate_previous_event_is_already_registered(
-                        repair_event, "diagnostic_out", repositories
-                    ):
-                        repositories["event"].save_event(repair_event)
-                        return "", 200
-                    else:
-                        return (
-                            "ID not already registered at DIAGNOSTIC_OUT event",
-                            400,
-                        )
-                else:
-                    return ("Introduced date is previous than diagnostic_out date", 400)
+        if not validate_datetime(data["timestamp"]):
+            return ("Not isoformat date", 400)
+        repair_event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event="repair_in",
+            payload=data["payload"],
+        )
+        if not validate_previous_event_is_already_registered(
+            repair_event, "diagnostic_out", repositories
+        ):
+            return ("ID not already registered at DIAGNOSTIC_OUT event", 400)
+        if validate_previous_event_is_already_registered(
+            repair_event, "repair_in", repositories
+        ):
+            return ("ID already registered at REPAIR IN event", 400)
 
-            else:
-                return ("Not isoformat date", 400)
-        else:
-            return ("Event name must be 'repair_in'", 400)
+        if not validate_datetime_is_later_than_previous_event(
+            repair_event, "diagnostic_out", repositories
+        ):
+            return ("Introduced date is previous than diagnostic_out date", 400)
+
+        repositories["event"].save_event(repair_event)
+        return "", 200
 
     @app.route("/api/process/repair/exit", methods=["POST"])
     def repair_machine_exit():

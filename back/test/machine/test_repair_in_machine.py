@@ -31,20 +31,20 @@ def test_should_repair_one_machine():
     assert response.status_code == 200
 
 
-def test_should_not_save_one_machine_with_incorrect_event_repair_in_name():
+def test_should_not_save_repair_in_if_is_already_registered():
     event_repository = EventRepository(temp_file())
     app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
-    diagnostic_in_event = Event(
+    repair_in_event = Event(
         id_machine="machine-1",
         employee="operario-007",
         timestamp="2022-05-08 10:06",
-        event="diagnostic_out",
+        event="repair_in",
         payload={"brand": "balay", "model": "bal2525"},
     )
 
-    event_repository.save_event(diagnostic_in_event)
+    event_repository.save_event(repair_in_event)
 
     event = {
         "id_machine": "machine-1",
@@ -55,4 +55,4 @@ def test_should_not_save_one_machine_with_incorrect_event_repair_in_name():
     }
 
     response = client.post("/api/process/repair/enter", json=event)
-    assert response.status_code == 200
+    assert response.status_code == 400
