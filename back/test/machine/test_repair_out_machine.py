@@ -31,28 +31,28 @@ def test_should_repair_out_one_machine():
     assert response.status_code == 200
 
 
-def test_should_not_save_one_machine_with_incorrect_event_repair_out_name():
+def test_should_not_save_one_machine_at_repair_out_if_is_already_registered():
     event_repository = EventRepository(temp_file())
     app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
-    repair_in_event = Event(
+    repair_out_event = Event(
         id_machine="machine-1",
         employee="operario-007",
         timestamp="2022-06-15 09:33:00",
-        event="repair_in",
+        event="repair_out",
         payload=[],
     )
 
-    event_repository.save_event(repair_in_event)
+    event_repository.save_event(repair_out_event)
 
-    repair_out_event = {
+    new_repair_out_event = {
         "id_machine": "machine-1",
         "employee": "Jeff",
         "timestamp": "2022-06-20 09:33:00",
-        "event": "REPAIR_OUT",
+        "event": "repair_out",
         "payload": [],
     }
 
-    response = client.post("/api/process/repair/exit", json=repair_out_event)
+    response = client.post("/api/process/repair/exit", json=new_repair_out_event)
     assert response.status_code == 400
