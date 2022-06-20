@@ -40,7 +40,6 @@ def create_app(repositories):
                         - id_machine
                         - employee
                         - timestamp
-                        - event
                         - payload
                     properties:
                         id_machine:
@@ -56,11 +55,6 @@ def create_app(repositories):
                             description: Register date in isoformat
                             example: "2022-05-25 00:00:00"
                             pattern: YY-MM-DD hh:mm:ss
-                        event:
-                            type: string
-                            description: Specific event
-                            example: register
-                            default: register
                         payload:
                             type: object
                             description: An object containing brand and model of the machine
@@ -79,30 +73,24 @@ def create_app(repositories):
 
         """
         data = request.json
-        if data["event"] == "register":
-            if validate_datetime(data["timestamp"]):
-                register_machine = Event(
-                    id_machine=data["id_machine"],
-                    employee=data["employee"],
-                    timestamp=data["timestamp"],
-                    event=data["event"],
-                    payload=data["payload"],
-                )
 
-                if not validate_id_already_exists(register_machine, repositories):
-                    if validate_register_contains_brand_and_model(register_machine):
+        if not validate_datetime(data["timestamp"]):
+            return ("Not isoformat date", 400)
+        register_machine = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event="register",
+            payload=data["payload"],
+        )
 
-                        repositories["event"].save_event(register_machine)
-                        return "", 200
-                    else:
-                        return ("Empty brand or model fields", 400)
-                else:
+        if validate_id_already_exists(register_machine, repositories):
+            return ("ID already existing", 400)
+        if not validate_register_contains_brand_and_model(register_machine):
+            return ("Empty brand or model fields", 400)
 
-                    return ("ID already existing", 400)
-            else:
-                return ("Not isoformat date", 400)
-        else:
-            return ("Event name must be 'register'", 400)
+        repositories["event"].save_event(register_machine)
+        return "", 200
 
     @app.route("/api/process/diagnostic/enter", methods=["POST"])
     def diagnostic_machine_enter():
