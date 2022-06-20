@@ -1,5 +1,5 @@
 import json
-from multiprocessing.sharedctypes import Value
+
 from src.domain.events import Event, EventRepository
 import sqlite3
 from datetime import datetime
