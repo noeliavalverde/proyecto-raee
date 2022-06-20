@@ -5,6 +5,7 @@ def main():
 
     from src.domain.info import Info, InfoRepository
     from src.domain.events import EventRepository, Event
+    from datetime import datetime, timedelta, date
 
     database_path = "data/database.db"
 
@@ -14,102 +15,240 @@ def main():
 
     event_repository = EventRepository(database_path)
 
-    # REGISTERS
+    list_all_events = [
+        Event(
+            id_machine="washing_machine_1",
+            employee="operario-008",
+            timestamp="2022-06-10",
+            event="register",
+            payload={"brand": "SAMSUNG", "model": "SAMSUNG_3"},
+        ),
+        Event(
+            id_machine="washing_machine_2",
+            employee="operario-007",
+            timestamp="2022-06-10",
+            event="register",
+            payload={"brand": "BALAY", "model": "BALAY_2"},
+        ),
+        Event(
+            id_machine="washing_machine_3",
+            employee="operario-011",
+            timestamp="2022-06-10",
+            event="register",
+            payload={"brand": "LG", "model": "LG_3"},
+        ),
+        Event(
+            id_machine="washing_machine_4",
+            timestamp="2022-06-10",
+            employee="operario-011",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_4"},
+        ),
+        Event(
+            id_machine="washing_machine_5",
+            timestamp="2022-06-10",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "SAMSUNG", "model": "SS48"},
+        ),
+        Event(
+            id_machine="washing_machine_6",
+            timestamp="2022-06-10",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "LG", "model": "LG_7"},
+        ),
+        Event(
+            id_machine="washing_machine_7",
+            timestamp="2022-06-10",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_20"},
+        ),
+        Event(
+            id_machine="washing_machine_8",
+            timestamp="2022-06-10",
+            employee="operario-011",
+            event="register",
+            payload={"brand": "BALAY", "model": "BALAY_B4"},
+        ),
+        Event(
+            id_machine="washing_machine_9",
+            timestamp="2022-06-10",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "BOSCH", "model": "BOSCH_B31"},
+        ),
+        Event(
+            id_machine="washing_machine_10",
+            timestamp="2022-06-10",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BOSCH", "model": "BOSCH_B23"},
+        ),
+        Event(
+            id_machine="washing_machine_11",
+            timestamp="2022-06-11",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BALAY", "model": "BALAY_2"},
+        ),
+        Event(
+            id_machine="washing_machine_12",
+            timestamp="2022-06-11",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "SAMSUNG", "model": "SAMSUNG_3"},
+        ),
+        Event(
+            id_machine="washing_machine_13",
+            timestamp="2022-06-11",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_15"},
+        ),
+        Event(
+            id_machine="washing_machine_14",
+            timestamp="2022-06-11",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "BALAY", "model": "BALAY_33"},
+        ),
+        Event(
+            id_machine="washing_machine_15",
+            timestamp="2022-06-11",
+            employee="operario-011",
+            event="register",
+            payload={"brand": "BOSCH", "model": "BOSCH_11"},
+        ),
+        Event(
+            id_machine="washing_machine_16",
+            timestamp="2022-06-11",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "BALAY", "model": "BALAY_B9"},
+        ),
+        Event(
+            id_machine="washing_machine_17",
+            timestamp="2022-06-11",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_21"},
+        ),
+        Event(
+            id_machine="washing_machine_18",
+            timestamp="2022-06-11",
+            employee="operario-008",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_B12"},
+        ),
+        Event(
+            id_machine="washing_machine_19",
+            timestamp="2022-06-11",
+            employee="operario-007",
+            event="register",
+            payload={"brand": "BEKO", "model": "BEKO_21"},
+        ),
+        Event(
+            id_machine="washing_machine_20",
+            timestamp="2022-06-11",
+            employee="operario-011",
+            event="register",
+            payload={"brand": "LG", "model": "LG_7"},
+        ),
+    ]
 
-    washer_machine_1 = Event(
-        id_machine="washing_machine_1",
-        employee="operario-008",
-        timestamp="2022-06-10",
-        event="register",
-        payload={"brand": "samsung", "model": "samsung_3"},
-    )
+    #################################################### SAVE REGISTERS:
 
-    washer_machine_2 = Event(
-        id_machine="washing_machine_2",
-        employee="operario-007",
-        timestamp="2022-06-10",
-        event="register",
-        payload={"brand": "Balay", "model": "Balay_2"},
-    )
-    washer_machine_3 = Event(
-        id_machine="washing_machine_3",
-        employee="operario-011",
-        timestamp="2022-06-10",
-        event="register",
-        payload={"brand": "LG", "model": "LG_3"},
-    )
+    for event in list_all_events:
+        event_repository.save_event(event)
 
-    washer_machine_4 = Event(
-        id_machine="washing_machine_4",
-        timestamp="2022-06-10",
-        employee="operario-008",
-        event="register",
-        payload={"brand": "BEKO", "model": "BEKO_4"},
-    )
+    #################################################### SAVE DIAGNOSTIC:
 
-    event_repository.save_event(washer_machine_1)
-    event_repository.save_event(washer_machine_2)
-    event_repository.save_event(washer_machine_3)
-    event_repository.save_event(washer_machine_4)
+    # diagnostic_in:
+    diagnostic_in_list = list_all_events[:-3]
 
-    # DIAGNOSTIC:
+    for event in diagnostic_in_list:
+        # we updated the key "timestamp" one more day, compared with event "register". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "diagnostic_in"
+        event.payload = {}
+        event_repository.save_event(event)
 
-    washer_machine_diagnostic_in = Event(
-        id_machine="washing_machine_1",
-        employee="operario-008",
-        timestamp="2022-06-15",
-        event="diagnostic_in",
-        payload={},
-    )
-    event_repository.save_event(washer_machine_diagnostic_in)
+    # diagnostic_out:
+    diagnostic_out_list = diagnostic_in_list[:-3]
 
-    washer_machine_diagnostic_out = Event(
-        id_machine="washing_machine_1",
-        employee="operario-008",
-        timestamp="2022-06-20",
-        event="diagnostic_out",
-        payload={"next_event": "repair"},
-    )
-    event_repository.save_event(washer_machine_diagnostic_out)
+    for event in diagnostic_out_list:
+        # we updated the key "timestamp" one more day, compared with event "diagnostic_in". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "diagnostic_out"
+        event.payload = {"next_event": "repair"}
+        event_repository.save_event(event)
 
-    # REPAIR
-    washer_machine_repair_in = Event(
-        id_machine="washing_machine_1",
-        employee="operario-011",
-        timestamp="2022-06-25",
-        event="repair_in",
-        payload={},
-    )
-    event_repository.save_event(washer_machine_repair_in)
+    #################################################### SAVE REPAIR:
 
-    washer_machine_repair_out = Event(
-        id_machine="washing_machine_1",
-        employee="operario-07",
-        timestamp="2022-06-30",
-        event="repair_out",
-        payload={"next_event": "test"},
-    )
+    # repair_in:
+    repair_in_list = diagnostic_out_list[:-3]
 
-    event_repository.save_event(washer_machine_repair_out)
+    for event in repair_in_list:
+        # we updated the key "timestamp" one more day, compared with event "diagnostic_out". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "repair_in"
+        event.payload = {}
+        event_repository.save_event(event)
 
-    # TEST
-    washer_machine_test_in = Event(
-        id_machine="washing_machine_1",
-        employee="operario-007",
-        timestamp="2022-07-05",
-        event="test_in",
-        payload={},
-    )
-    event_repository.save_event(washer_machine_test_in)
+    # repair_out:
+    repair_out_list = repair_in_list[:-3]
 
-    washer_machine_test_out = Event(
-        id_machine="washing_machine_1",
-        employee="operario-007",
-        timestamp="2022-07-10",
-        event="test_out",
-        payload={"vibration": "ok", "flow": "ok"},
-    )
-    event_repository.save_event(washer_machine_test_out)
+    for event in repair_out_list:
+        # we updated the key "timestamp" one more day, compared with event "repair_in". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "repair_out"
+        event.payload = {"next_event": "test"}
+        event_repository.save_event(event)
+
+    #################################################### SAVE TEST:
+
+    # test_in:
+    test_in_list = repair_out_list[:-3]
+
+    for event in test_in_list:
+        # we updated the key "timestamp" one more day, compared with event "repair_out". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "test_in"
+        event.payload = {}
+        event_repository.save_event(event)
+
+    # test_out:
+    test_out_list = test_in_list[:-3]
+
+    for event in test_out_list:
+        # we updated the key "timestamp" one more day, compared with event "test_in". And save it like a string
+        event.timestamp = str(
+            datetime.fromisoformat(event.timestamp) + timedelta(days=1)
+        )
+        event.event = "test_out"
+        event.payload = {"vibration": "ok", "flow": "ok"}
+        event_repository.save_event(event)
+
+    # washer_machine_test_out = Event(
+    #     id_machine="washing_machine_1",
+    #     employee="operario-007",
+    #     timestamp="2022-07-10",
+    #     event="test_out",
+    #     payload={"vibration": "ok", "flow": "ok"},
+    # )
+    # event_repository.save_event(washer_machine_test_out)
 
 
 if __name__ == "__main__":
