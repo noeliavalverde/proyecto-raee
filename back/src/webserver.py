@@ -107,7 +107,6 @@ def create_app(repositories):
                         - id_machine
                         - employee
                         - timestamp
-                        - event
                     properties:
                         id_machine:
                             type: uuid
@@ -122,11 +121,6 @@ def create_app(repositories):
                             description: Date in isoformat
                             example: "2022-05-25 00:00:00"
                             pattern: YY-MM-DD hh:mm:ss
-                        event:
-                            type: string
-                            description: Specific event
-                            example: diagnostic_in
-                            default: diagnostic_in
                         payload:
                             type: object
                             description:
@@ -148,44 +142,34 @@ def create_app(repositories):
         """
 
         data = request.json
-        if data["event"] == "diagnostic_in":
-            if validate_datetime(data["timestamp"]):
-                event = Event(
-                    id_machine=data["id_machine"],
-                    employee=data["employee"],
-                    timestamp=data["timestamp"],
-                    event=data["event"],
-                    payload=data["payload"],
-                )
 
-                if validate_previous_event_is_already_registered(
-                    event, "register", repositories
-                ):
-                    if not validate_previous_event_is_already_registered(
-                        event, "diagnostic_in", repositories
-                    ):
-                        if validate_datetime_is_later_than_previous_event(
-                            event, "register", repositories
-                        ):
+        if not validate_datetime(data["timestamp"]):
+            return ("Not isoformat date", 400)
+        event = Event(
+            id_machine=data["id_machine"],
+            employee=data["employee"],
+            timestamp=data["timestamp"],
+            event="diagnostic_in",
+            payload=data["payload"],
+        )
 
-                            repositories["event"].save_event(event)
-                            return "", 200
+        if not validate_previous_event_is_already_registered(
+            event, "register", repositories
+        ):
+            return ("ID not already registered at REGISTER event", 400)
 
-                        else:
-                            return (
-                                "Introduced date is previous than register date",
-                                400,
-                            )
-                    else:
-                        return ("this ID is already registered at diagnostic in", 400)
+        if validate_previous_event_is_already_registered(
+            event, "diagnostic_in", repositories
+        ):
+            return ("this ID is already registered at diagnostic in", 400)
 
-                else:
-                    return ("ID not already registered at REGISTER event", 400)
+        if not validate_datetime_is_later_than_previous_event(
+            event, "register", repositories
+        ):
+            return ("Introduced date is previous than register date", 400)
 
-            else:
-                return ("Not isoformat date", 400)
-        else:
-            return ("Event name must be 'diagnostic_in'", 400)
+        repositories["event"].save_event(event)
+        return "", 200
 
     @app.route("/api/process/diagnostic/exit", methods=["POST"])
     def diagnostic_machine_exit():
