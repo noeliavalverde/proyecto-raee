@@ -1,12 +1,12 @@
 from datetime import datetime
-from src.domain.events import EventRepository
+from src.domain.events import EventRepository, Event
 from src.lib.utils import temp_file
 from src.webserver import create_app
 
 
 def test_should_register_one_machine():
-    registered_machine = EventRepository(temp_file())
-    app = create_app(repositories={"event": registered_machine})
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
     event = {
@@ -24,16 +24,25 @@ def test_should_register_one_machine():
     assert response.status_code == 200
 
 
-def test_should__not_register_one_machine_with_incorrect_event_name():
-    registered_machine = EventRepository(temp_file())
-    app = create_app(repositories={"event": registered_machine})
+def test_should_not_register_one_machine_if_is_already_registered():
+    event_repository = EventRepository(temp_file())
+    app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
+    register1_event = Event(
+        id_machine="machine-1",
+        employee="operario-007",
+        timestamp="2022-06-15 09:33:00",
+        event="register",
+        payload=[],
+    )
+
+    event_repository.save_event(register1_event)
+
     event = {
-        "id_machine": "machine_1",
+        "id_machine": "machine-1",
         "employee": "Jeff",
         "timestamp": "2022-08-05 22:36:00",
-        "event": "regiser",
         "payload": {
             "brand": "samsung",
             "model": "samsung_3",

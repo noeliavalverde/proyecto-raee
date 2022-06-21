@@ -31,7 +31,7 @@ def test_should_test_out_one_machine():
     assert response.status_code == 200
 
 
-def test_should_not_save_one_machine_with_incorrect_event_test_out_name():
+def test_should_not_save_one_machine_at_test_out_if_is_already_registered():
     event_repository = EventRepository(temp_file())
     app = create_app(repositories={"event": event_repository})
     client = app.test_client()
@@ -40,7 +40,7 @@ def test_should_not_save_one_machine_with_incorrect_event_test_out_name():
         id_machine="machine-1",
         employee="operario-007",
         timestamp="2022-05-30 17:26:00",
-        event="test_in",
+        event="test_out",
         payload={},
     )
 
@@ -50,7 +50,6 @@ def test_should_not_save_one_machine_with_incorrect_event_test_out_name():
         "id_machine": "machine-1",
         "employee": "operario-007",
         "timestamp": "2022-05-30 17:27:00",
-        "event": "testout",
         "payload": {},
     }
 

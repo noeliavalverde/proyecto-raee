@@ -36,33 +36,32 @@ def test_should_diagnostic_one_machine():
     assert response.status_code == 200
 
 
-def test_should_not_save_one_machine_with_incorrect_event_diagnostic_in_name():
+def test_should_not_save_event_if_diagnostic_in_is_already_registered():
     event_repository = EventRepository(temp_file())
     app = create_app(repositories={"event": event_repository})
     client = app.test_client()
 
-    register_event = Event(
+    diagnostic_in_event = Event(
         id_machine="machine_1",
         employee="Jeff",
         timestamp="2022-06-15 09:33",
-        event="register",
+        event="diagnostic_in",
         payload={
             "brand": "Balay",
             "model": "Balay2365",
         },
     )
 
-    event_repository.save_event(register_event)
+    event_repository.save_event(diagnostic_in_event)
 
-    diagnostic_event = {
+    diagnostic_out_event = {
         "id_machine": "machine_1",
         "employee": "Jeff",
         "timestamp": "2022-06-15 09:34",
-        "event": "diagnostic-in",
         "payload": [
             {"docs": "Aqui va el enlace de un vide de como chekear una lavadora"}
         ],
     }
 
-    response = client.post("/api/process/diagnostic/enter", json=diagnostic_event)
+    response = client.post("/api/process/diagnostic/enter", json=diagnostic_out_event)
     assert response.status_code == 400
