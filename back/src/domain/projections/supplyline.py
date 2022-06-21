@@ -121,6 +121,22 @@ def get_all_events_classified_by_id_machine(event_list):
     return all_events_by_id_machine
 
 
+#######
+
+
+def get_all_events_by_id(id, repository):
+    events = repository.get_events()
+
+    event_list_of_one_machine = []
+    for event in events:
+        if event.id_machine == id:
+            event_list_of_one_machine.append(event)
+    return event_list_of_one_machine
+
+
+#####################
+
+
 def supply_line_current_state(id_machine_with_its_events_dict):
     """
     It returns all the info of the current event of each washing machine
