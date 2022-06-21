@@ -581,4 +581,13 @@ def create_app(repositories):
 
         return jsonify(current_event_classified_by_id_machine), 200
 
+    # Gets all events of one washing machine
+    @app.route("/api/analysis/get_all_events_by_id/<id_machine>", methods=["GET"])
+    def get_events_by_id(id_machine):
+        all_events_of_a_machine = get_all_events_by_id(
+            id_machine, repositories["event"]
+        )
+
+        return object_to_json(all_events_of_a_machine)
+
     return app
