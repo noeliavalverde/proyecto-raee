@@ -8,10 +8,6 @@ def main():
 
     database_path = "data/database.db"
 
-    info_repository = InfoRepository(database_path)
-
-    info_repository.save(Info(app_name="f5-seed-app"))
-
     event_repository = EventRepository(database_path)
 
     list_all_events = [
