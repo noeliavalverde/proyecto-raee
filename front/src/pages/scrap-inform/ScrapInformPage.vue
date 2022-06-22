@@ -1,4 +1,5 @@
 <template>
+<Header></Header>
     <div>
         <ul class="layout">
             <li>SCRAP</li>
@@ -68,8 +69,11 @@
   
 </template>
 <script>
+import Header from '@/components/Header.vue'
+
 export default {
     name:"ScrapInform",
+    components: { Header },
     data() {
         return{
             reports:[],

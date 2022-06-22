@@ -1,4 +1,5 @@
 <template>
+<Header></Header>
     <div>
         <ul class="layout">
             <li>MANAGER</li>
@@ -28,8 +29,11 @@
   </div>
 </template>
 <script>
+import Header from '@/components/Header.vue'
+
 export default {
     name:"ManagerPage",
+    components: { Header },
     data() {
         return{
             dataReport:'',
