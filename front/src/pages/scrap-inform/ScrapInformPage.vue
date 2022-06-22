@@ -1,70 +1,67 @@
 <template>
 <Header></Header>
-    <div>
-        <ul class="layout">
-            <li>SCRAP</li>
-            <li @click="handleClick">DASHBOARD</li>
-            <li @click="onClicked">MÁQUINAS</li>
-        </ul>
-    </div>
-    <br>
-    <section v-show="displayMachine">
-        <div class="BUSQUEDA_Y_FILTRADO_div">
-            <h6 class="BUSQUEDA_Y_FILTRADO">BUSQUEDA Y FILTRADO</h6>
-        </div>
-        <br>
-        <span class="p-input-icon-left">
-                <i class="pi pi-search" />
+
+
+    <section class="search-area">
+        <h6>BÚSQUEDA Y FILTRADO</h6>
+
+        <div class="search-input">
+                
                 <InputText type="text" v-model="filteredText" placeholder="Search" />
-        </span>
-        <span class="p-input">Busque una marca, modelo o codigo de maquina</span>
-        <Dropdown class="selected_event" v-model="selectedEvent" :options="events" optionLabel="name" placeholder="Select event" :filter="false">
-                <template>
-                    <div v-for="item in events" :key="item.name" :value="item.name">{{item.name}}</div>
-                </template>
-        </Dropdown>
-        <span class="selected_option">Selecciona el estado de la maquina</span>
-        <span class="p-input-icon-right">
+                <p>Busque una marca, modelo o codigo de maquina</p>
+        </div>
+        
+        <div class="search-input">
+            <Dropdown class="selected_event" v-model="selectedEvent" :options="events" optionLabel="name" placeholder="Select event" :filter="false">
+                    <!-- <template>
+                        <div v-for="item in events" :key="item.name" :value="item.name">{{item.name}}</div>
+                    </template> -->
+            </Dropdown>
+            <p>Selecciona el estado de la maquina</p>
+        </div>
+        <div class="search-input">
                 <InputText type="date" v-model="selectedDate" placeholder="Search" />
-        </span>
+                <p>Selecciona la ultima fecha de actualizacion</p>
+        </div>
        
-        <span class="selected_date">Selecciona la ultima fecha de actualizacion</span>
-        <br><br><br><br>
-        <div class="container">
-            <table class="borde_tabla">
-                <thead>
-                Resultados
-                </thead>
-                <br>
-                <tbody>
-                <th class="id_machine">Código</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Empleado</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th></th>
-                <tr v-for="item in filteredReports" :key="item.id_machine">
-                    <td class="id_machine">{{item.id_machine}}</td>
-                    <td>{{item.brand}}</td>
-                    <td>{{item.model}}</td>
-                    <td class="employee">{{item.employee}}</td>
-                    <td>{{item.timestamp}}</td>
-                    <td>{{item.event}}</td>
-                    <td >
-                    <button class="info" @click="this.$router.push({name: 'EventDetail', params:{id:item.id_machine}})"> + Info</button>
-                    </td>
-                </tr>
-       
-                </tbody>
-                <tfoot class="foot">
-                </tfoot>
-            </table>
-          </div>
+        
     </section>
+         
+        <main class="main-container">
+            <div class="table-wrapper">
+                <h4>RESULTADOS</h4>
+                <table>
+                    <thead>
+                    <th class="id_machine">Código</th>
+                    <th>Marca</th>
+                    <th>Modelo</th>
+                    <th>Empleado</th>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    </thead>
+                
+                    <tbody>
+                
+                    <tr v-for="item in filteredReports" :key="item.id_machine">
+                        <td class="id_machine">{{item.id_machine}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.model}}</td>
+                        <td class="employee">{{item.employee}}</td>
+                        <td>{{item.timestamp}}</td>
+                        <td>{{item.event}}</td>
+                        <td >
+                        <button class="btn" @click="this.$router.push({name: 'EventDetail', params:{id:item.id_machine}})"> + Info</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                
+                </table>
+            </div>
+         </main>
+   
 
   <footer class="footer">
-    <div class="div_footer"> 2021 Scrap todos los derechos reservados </div>
+    <div class="div_footer"> © 2021 <span>Scrap</span>. Todos los derechos reservados </div>
   </footer>
   
 </template>
@@ -77,7 +74,6 @@ export default {
     data() {
         return{
             reports:[],
-            displayMachine: true,
             filteredText: '',
             selectedEvent:'',
             selectedDate:'',
@@ -141,19 +137,95 @@ export default {
             this.reports= await response.json()
             
         },
-        handleClick(){
-            this.displayMachine = false
-        },
-        onClicked(){
-            this.displayMachine = true
-        }
+       
     }
 }
 
 </script>
 
 <style scoped>
-.info{
+.app{
+    background-color: rgba(62,219,147,255);
+}
+.search-area{
+    background-color: #f0faf8;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 3em;
+    align-items: end;
+    text-align: left;
+    
+}
+.search-area h6{
+    width: 100%;
+    font-weight: bold;
+    margin: 1.5em;
+}
+
+.search-area .search-input{
+    
+    font-size: 0.6em;
+    margin-right: 2em;
+    
+}
+.search-area p{
+    
+    margin-top: 1em;
+}
+.search-area input{
+    border: 1px solid rgba(62,219,147,255);
+}
+
+.p-dropdown {
+    border: 1px solid rgba(62,219,147,255);
+}
+.main-container{
+    background-color: #f0faf8;
+    padding-bottom: 3em;
+}
+
+.table-wrapper{
+    background-color: white;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 5px;
+    padding: 1em;
+    text-align: left;
+}
+.table-wrapper h4{
+    margin-bottom: 2em;
+}
+.table-wrapper table{
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8em;
+}
+
+.table-wrapper td{
+    padding: 0.6em 0;
+    border-bottom: 1px solid #f0faf8;
+}
+.table-wrapper .btn{
+    border: 1px solid rgba(62,219,147,255);
+    background-color: white;
+    color:rgba(62,219,147,255);
+    padding: 0.3em 0.6em;
+    border-radius: 5px;
+}
+footer{
+    color: rgba(107,177,145,255);
+    padding: 2.5em;
+    text-align: left;
+    font-size: 0.8em;
+    background-color: rgba(248,253,252,255);
+}
+
+footer span{
+    font-weight: bold;
+}
+
+/* .info{
     color:green;
 }
 .layout{
@@ -188,30 +260,9 @@ th, td {
    border-bottom: 0.09px solid #999;
    }
 
-#chart_line{
-  width: 75%;
-  border: solid transparent;
-  background-color: white;
-}
-#chartline{
-  width: 24%;
-  background-color: rgba(255, 255, 255, 0.932);
-}
-.individual_chartline{
-  display: flex;
-  justify-content: space-between;
-}
-.chart_doughnut_line{
-  display: flex;
-  justify-content:space-between;
-}
-#doughnut{
-  margin-left: 2em;
-  border: solid transparent;
-  background-color: white;
-  padding: 1em;
-  width: 25%;
-}
+
+
+
 
 .div_footer{
   display: flex;
@@ -221,42 +272,20 @@ th, td {
 .search-input{
   text-align: right;
 }
-.p-input-icon-left{
-    position: absolute;
-    top: auto;
-    left: 1em;
-}
-.selected_event{
-    position: absolute;
-    top: auto;
-    left: 18em;
-}
-.p-input-icon-right{
-    position: absolute;
-    top: auto;
-    left: 28em;
-}
+
+
+
 .p-input{
-    position: absolute;
-    top: 17em;
-    left: 2em;
+    
     font-size:10px;
 }
 .selected_option{
-    position: absolute;
-    top: 17em;
-    left: 28em;
+    
     font-size:10px;
 }
 .selected_date{
-    position: absolute;
-    top: 17em;
-    left: 45em;
+    
     font-size:10px;
-}
-.BUSQUEDA_Y_FILTRADO{
-    position: absolute;
-    top: 8em;
-    left: 2em;
-}
+} */
+
 </style>

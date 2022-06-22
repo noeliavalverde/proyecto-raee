@@ -18,9 +18,10 @@ export default {
 
 <style scoped>
 #nav {
-  padding: 30px 30px 0;
+  padding: 30px 30px 0 3em;
   display: flex;
   flex-direction: row;
+  font-size: 0.8em;
   
 }
 #nav a {
