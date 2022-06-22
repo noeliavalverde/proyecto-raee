@@ -3,7 +3,6 @@ def main():
 
     sys.path.insert(0, "")
 
-    from src.domain.info import Info, InfoRepository
     from src.domain.events import EventRepository, Event
     from datetime import datetime, timedelta, date
 
@@ -240,15 +239,6 @@ def main():
         event.event = "test_out"
         event.payload = {"vibration": "ok", "flow": "ok"}
         event_repository.save_event(event)
-
-    # washer_machine_test_out = Event(
-    #     id_machine="washing_machine_1",
-    #     employee="operario-007",
-    #     timestamp="2022-07-10",
-    #     event="test_out",
-    #     payload={"vibration": "ok", "flow": "ok"},
-    # )
-    # event_repository.save_event(washer_machine_test_out)
 
 
 if __name__ == "__main__":
