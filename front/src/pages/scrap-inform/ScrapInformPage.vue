@@ -38,6 +38,7 @@
                     <th>Empleado</th>
                     <th>Fecha</th>
                     <th>Estado</th>
+                    <th></th>
                     </thead>
                 
                     <tbody>
@@ -202,9 +203,13 @@ export default {
     font-size: 0.8em;
 }
 
-.table-wrapper td{
+.table-wrapper td, th{
     padding: 0.6em 0;
     border-bottom: 1px solid #f0faf8;
+}
+.table-wrapper .employee{
+    color: rgba(62,219,147,255);
+    font-weight: bold;
 }
 .table-wrapper .btn{
     border: 1px solid rgba(62,219,147,255);
@@ -225,67 +230,6 @@ footer span{
     font-weight: bold;
 }
 
-/* .info{
-    color:green;
-}
-.layout{
-    display:flex;
-    justify-content: flex-start;
-}
-li{
-    margin:20px;
-    list-style: none;
-}
-.container{
-    width:100%;
 
-}
-table {
-   width: 100%;
-   border: 1px solid rgb(248, 238, 238);
-   text-align: center;
-   border-collapse: collapse;
-   margin: fit-content;
-   caption-side: top;
-}
-.employee {
-    color: green;
-}
-button{
-    border:solid 0.5px green;
- 
-   
-}
-th, td {
-   border-bottom: 0.09px solid #999;
-   }
-
-
-
-
-
-.div_footer{
-  display: flex;
-  justify-content: left;
-  border: solid white;
-}
-.search-input{
-  text-align: right;
-}
-
-
-
-.p-input{
-    
-    font-size:10px;
-}
-.selected_option{
-    
-    font-size:10px;
-}
-.selected_date{
-    
-    font-size:10px;
-} */
 
 </style>
