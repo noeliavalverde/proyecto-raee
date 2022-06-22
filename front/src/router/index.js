@@ -13,11 +13,7 @@ const routes = [
     name: 'About',
     component: () => import('@/pages/about/AboutPage.vue'),
   },
-  {
-    path: '/register',
-    name: 'RegisterMachine',
-    component: () => import('@/pages/register-machine/RegisterMachinePage.vue'),
-  },
+
   {
     path: '/scrap-inform',
     name: 'ScrapInform',
