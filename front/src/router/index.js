@@ -29,6 +29,12 @@ const routes = [
     component: () => import('@/pages/details/EventDetailPage.vue'),
     props:true
   },
+  {
+    path: '/manager-inform',
+    name: 'ManagerPage',
+    component: () => import('@/pages/manager/ManagerPage.vue'),
+    props:true
+  },
 ]
 
 const router = createRouter({
