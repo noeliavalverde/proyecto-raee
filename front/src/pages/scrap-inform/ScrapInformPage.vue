@@ -95,13 +95,9 @@ export default {
     },
     computed:{
        filteredReports(){
-        //let reportsByText = this.filterReportsByText(this.reports)
-        //let result = this.filterReportsByDate(reportsByText)
-        //let result = this.filterReportsByDate(this.filterReportsByText(this.reports))
         let result = this.reports.filter((item)=> this.isFilteredByText(item))
                                  .filter((item)=> item.timestamp.startsWith(this.selectedDate))
                                  .filter((item) => this.isFilteredByEvent(item))
-                                // .filter((item)=> item.event == this.selectedEvent)
         return result
        }
         
@@ -113,28 +109,19 @@ export default {
                     item.brand.toLowerCase().includes(this.filteredText.toLowerCase())||
                     item.model.toLowerCase().includes(this.filteredText.toLowerCase())
         },
+
         isFilteredByEvent(item) {
-            console.log("selected ", this.selectedEvent)
-            console.log("item ",  item.event )               
-            console.log(item.event == this.selectedEvent)
-            
-            if (this.selectedEvent == ""){ ///this.selectedEvent  == 'lo quiero todo')
+            if (this.selectedEvent == ""){ 
                 return true
             }
-            if (this.selectedEvent['name'].includes("all")){ ///this.selectedEvent  == 'lo quiero todo')
+            if (this.selectedEvent['name'].includes("all")){ 
                 return true
             } else{
                 
                 return this.selectedEvent['name'].includes(item.event)
             }
-            
-            
-            
-            
-           
-            // return item.employee.toLowerCase().includes(this.filteredText.toLowerCase())||
-                    
         },
+        
         filterReportsByDate(reports){
             let result= []
             for (const item of reports){
@@ -142,43 +129,12 @@ export default {
                     result.push(item)
                 }
             }
-            console.log(result)
             return result
         },
-            // filterReportsByText(reports){
-            //     let result= []
-            //     for (const item of reports){
-            //         if(
-            //             item.employee.toLowerCase().includes(this.filteredText.toLowerCase())||
-            //             item.id_machine.toLowerCase().includes(this.filteredText.toLowerCase())||
-            //             item.brand.toLowerCase().includes(this.filteredText.toLowerCase())||
-            //             item.model.toLowerCase().includes(this.filteredText.toLowerCase())
-            //         ){
-            //         result.push(item)
-            //         }
-                    
-            //     }
-            //     return result
-            // },
+
         async loadData(){
             const response = await fetch ('http://localhost:5000/api/analysis/supply_line_current_state')
             this.reports= await response.json()
-
-            // this.registeredMachines= this.reports.filter((x)=>{
-            //    return  x.event == 'register'
-            // })
-            //  this.diagnosticatedMachines= this.reports.filter((x)=>{
-            //    return  x.event == 'diagnostic_in'
-            // })
-            // this.repairedMachines= this.reports.filter((x)=>{
-            //    return  x.event == 'repair_in'
-            // })
-            // this.testedMachines= this.reports.filter((x)=>{
-            //    return  x.event == 'test_in'
-            // })
-            // this.readyToSellMachines= this.reports.filter((x)=>{
-            //    return  x.event == 'finished'
-            // })
             
         },
         handleClick(){
