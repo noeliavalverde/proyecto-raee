@@ -3,6 +3,8 @@
 ## Configuración del proyecto
 ```
 npm install
+npm install primevue@^3 --save
+npm install primeicons --save
 ```
 
 ### Ejecutar servidor de desarrollo
