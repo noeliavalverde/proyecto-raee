@@ -2,7 +2,7 @@
    <Header />
    <div class="container">
       <div class="info-wrapper">
-          <div class="pi pi-chevron-left"></div>
+          <router-link to="/scrap-inform"><div class="pi pi-chevron-left"> </div> </router-link>
           <h3>Código ID: {{id}} | {{report[0].payload.brand}} | {{report[0].payload.model}} </h3>
           <div class="state-box">{{report[report.length - 1].event}}</div>
       </div>
