@@ -105,6 +105,10 @@ export default {
       text-align: left;
       font-size: 0.8em;
   }
+  .table-wrapper .employee{
+    color: rgba(62,219,147,255);
+    font-weight: bold;
+}
   .table-wrapper th{
       color: rgb(202, 199, 199);
       padding: 1em 0.8em;
