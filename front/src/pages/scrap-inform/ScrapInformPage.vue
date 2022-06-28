@@ -1,5 +1,5 @@
 <template>
-<Header></Header>
+<Header />
 
 
     <section class="search-area">
@@ -218,6 +218,10 @@ export default {
     padding: 0.3em 0.6em;
     border-radius: 5px;
 }
+.table-wrapper .btn:hover{
+    background-color: rgb(62,219,147);
+    color:white;   
+   }
 footer{
     color: rgba(107,177,145,255);
     padding: 2.5em;
