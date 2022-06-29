@@ -1,5 +1,7 @@
 <template>
-<Header></Header>
+    <section v-for="state in collector" :key="state.id">
+        <h1></h1>
+    </section>
     <div>
         <ul class="layout">
             <li>MANAGER</li>
@@ -19,6 +21,7 @@
     <Chart type="line" id="chartline" :data="forthLineData" :options="forthAxisOptions" />
   </div>
   <br><br><br>
+  
    <div class="chart_doughnut_line">
      <Chart type="line" id="chart_line" :data="lineStylesData" :options="multiAxisOptions" />
      <Chart type="doughnut" id="doughnut" :data="doughnutData" :options="lightOptions" />
@@ -27,31 +30,32 @@
     <div class="div_footer"> 2021 Scrap todos los derechos reservados </div>
   </footer>
   </div>
+  <hr>
 </template>
 <script>
-import Header from '@/components/Header.vue'
-
 export default {
     name:"ManagerPage",
-    components: { Header },
     data() {
         return{
+            dataKeys: '',
             dataReport:'',
-            reports:[],
+            eventReports:[],
+            lastReports:[],
             displayCharts: true,
             selectedChartsDate:'',
+            collector:{},
             lineStylesData: {
               labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
               datasets: [
                   {
-                      label: 'First Dataset',
+                      label: 'Registred',
                       data: [65, 59, 80, 81, 56, 55, 40],
                       fill: false,
                       tension: .4,
                       borderColor: '#42A5F5'
                   },
                   {
-                      label: 'Second Dataset',
+                      label: 'Diagnosticated',
                       data: [28, 48, 40, 19, 86, 27, 90],
                       fill: false,
                       borderDash: [5, 5],
@@ -59,12 +63,21 @@ export default {
                       borderColor: '#66BB6A'
                   },
                   {
-                      label: 'Third Dataset',
+                      label: 'Repaired',
                       data: [12, 51, 62, 33, 21, 62, 45],
                       fill: false,
                       borderColor: '#FFA726',
                       tension: .4,
                       backgroundColor: 'rgba(255,167,38,0.2)'
+                  },
+                  {
+                      label: 'Tested',
+                      data: [12, 51, 10, 33, 21, 9, 45],
+                      fill: false,
+                      borderDash: [5, 5],
+                      borderColor: '#033363',
+                      tension: .4,
+                      backgroundColor: '#f0ca24'
                   }
               ]
           },
@@ -72,6 +85,7 @@ export default {
                 stacked: false,
                 plugins: {
                     legend: {
+                        align: 'end',
                         labels: {
                             color: '#495057'
                         }
@@ -114,21 +128,6 @@ export default {
                     }
               }
         },
-        lineData: {
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [
-                  {
-                      label: 'first Dataset',
-                      data: [12, 51, 62, 33, 21, 62, 45],
-                      fill: true,
-                      borderDash: [5, 5],
-                      borderColor: '#FFA726',
-                      tension: .4,
-                      backgroundColor: 'rgba(255,167,38,0.2)'
-                  }
-                  
-              ]
-          },
         AxisOptions:{
                 stacked: false,
                 plugins: {
@@ -174,20 +173,8 @@ export default {
                     }
               }
         },
-        secondLineData: {
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [
-                 {
-                      label: 'second Dataset',
-                      data: [65, 59, 80, 81, 56, 55, 40],
-                      fill: true,
-                      tension: .4,
-                      borderColor: '#42A5F5'
-                  },
-                  
-              ]
-          },
         secondAxisOptions:{
+                responsive: true,
                 stacked: false,
                 plugins: {
                     legend: {
@@ -232,20 +219,6 @@ export default {
                     }
               }
         },
-        thirdlineData: {
-              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-              datasets: [
-                  {
-                      label: 'third Dataset',
-                      data: [28, 48, 40, 19, 86, 27, 90],
-                      fill: true,
-                      borderDash: [5, 5],
-                      tension: .4,
-                      borderColor: '#66BB6A'
-                  },
-                  
-              ]
-          },
         thirdAxisOptions:{
                 stacked: false,
                 plugins: {
@@ -295,9 +268,10 @@ export default {
               labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
               datasets: [
                   {
-                      label: 'Third Dataset',
+                      label: 'Tested',
                       data: [12, 51, 10, 33, 21, 9, 45],
                       fill: true,
+                      borderDash: [5, 5],
                       borderColor: '#033363',
                       tension: .4,
                       backgroundColor: '#f0ca24'
@@ -350,20 +324,11 @@ export default {
                     }
               }
         },
-        doughnutData: {
-                labels: this.data,
-                datasets: [
-                    {
-                        label: 'porcentajes',
-                        data: this.data,
-                        backgroundColor: ["#FF6384","#36A2EB","#FFCE56"],
-                        hoverBackgroundColor: ["#FF6384","#36A2EB","#FFCE56"]
-                    }
-                ]
-            },
 			lightOptions: {
+                responsive: true,
 				plugins: {
                     legend: {
+                        position: 'bottom',
                         labels: {
                             color: '#495057'
                         }
@@ -374,27 +339,81 @@ export default {
         }
     },
     mounted(){
-        this.loadData()
+        this.loadData(),
+        this.collectorData()
+        // this.loadDataEvents()
+        fetch('http://localhost:5000/api/analysis/supply_line_current_state')
+            .then(async res => await res.json())
+            .then(data => this.eventReports = data)
+            .catch(err=> console.log(err.message))
+             console.log(this.eventReports)
     },
- 
-    methods:{
-        async loadData(){
-            const response = await fetch ('http://localhost:5000/api/analysis/number_of_machines_in_each_event')
-            this.data= await response.json()
-            this.dataReport= Object.values(this.data)
-            console.log(this.dataReport)
+    computed:{
+        lineData(){
+            return{
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              datasets: [
+                  {
+                      label: 'Registred',
+                      data: [65, 59, 80, 81, 56, 55, 40],
+                      fill: true,
+                      borderColor: '#42A5F5',
+                      tension: .4,
+                      backgroundColor: 'rgba(255,167,38,0.2)'
+                  }
+                  
+              ]
+        }},
+        secondLineData(){
+            return{
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              datasets: [
+                  {
+                      label: 'Diagnosticated',
+                      data: [28, 48, 40, 19, 86, 27, 90],
+                      fill: true,
+                      borderDash: [5, 5],
+                      borderColor: "#66BB6A",
+                      tension: .4,
+                      backgroundColor: 'rgba(255,167,38,0.2)'
+                  }
+                  
+              ]
+        }},
+        thirdlineData(){
+            return{
+              labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+              datasets: [
+                  {
+                      label: 'Repaired',
+                      data: [12, 51, 62, 33, 21, 62, 45],
+                      fill: true,
+                      tension: .4,
+                      borderColor: '#FFA726'
+                  },
+                  
+              ]
+        }},
+        doughnutData(){
+            return {
+                labels:  this.dataKeys,
+                datasets: [
+                    {
+                        label: 'state',
+                        data: this.dataReport,
+                        backgroundColor: ["#FF6384","#36A2EB","#FFCE56","#033363","#66BB6A",'#885263','#547698'],
+                        hoverBackgroundColor: ["#FF6384","#36A2EB","#FFCE56","#033363","#66BB6A",'#885263','#547698']
+                    }
+                ],
+            
+            }
+            
         },
-        handleClick(){
-            this.displayCharts= true
-            this.displayMachine = false
-        },
-        onClicked(){
-            this.displayCharts= false
-            this.displayMachine = true
-        },
-        counter_timestamp(){
-          
-            const mapMonthDay= this.reports.map((x)=>{
+        registeredMachinesFunction(){
+            const sumRegistedEvents= this.eventReports.filter(x=>{
+                return x.event== 'register' 
+            })
+             const mapMonthDay= sumRegistedEvents.map((x)=>{
                 return new Date(x.timestamp).getMonth()
             })
             const sumPerMonth= mapMonthDay.reduce(function (count, x){
@@ -407,10 +426,121 @@ export default {
                 }
                 return count
             }, {})
-            console.log(sumPerMonth)
-            console.log(Object.values(sumPerMonth))
+            return sumPerMonth
+        },
+        diagnosticatedMachinesFunction(){
+            const sumDiagnosticatedEvents= this.eventReports.filter(x=>{
+                return x.event== 'diagnostic_in' 
+            })
+             const mapMonthDay= sumDiagnosticatedEvents.map((x)=>{
+                return new Date(x.timestamp).getMonth()
+            })
+            const sumPerMonth= mapMonthDay.reduce(function (count, x){
+                //console.log(count ,x)
+                //count[x]= count[x] === undefined ? 1 :  count[x] + 1
+                if (count[x] === undefined) {
+                    count[x] = 1
+                } else {
+                    count[x] = count[x] + 1
+                }
+                return count
+            }, {})
+            return sumPerMonth
+           },
+        },
+        methods:{
+            repairedMachinesFunction(){
+                const sumRepairedEvents= this.eventReports.filter(x=>{
+                    console.log(sumRepairedEvents)
+                    return x.event== 'repair_in' 
+                })
+                const mapMonthDay= sumRepairedEvents.map((x)=>{
+                    return new Date(x.timestamp).getMonth()
+                })
+                const sumPerMonth= mapMonthDay.reduce(function (count, x){
+                    //console.log(count ,x)
+                    //count[x]= count[x] === undefined ? 1 :  count[x] + 1
+                    if (count[x] === undefined) {
+                        count[x] = 1
+                    } else {
+                        count[x] = count[x] + 1
+                    }
+                    return count
+                }, {})
+                console.log(Object.values(sumPerMonth))
+                console.log('----------------the sum', sumPerMonth)
+                return sumPerMonth
+            },
+            testedMachinesFunction(){
+                const sumTestedOutEvents= this.eventReports.filter(x=>{
+                    console.log(sumTestedOutEvents)
+                    return x.event== 'test_out' 
+                })
+                const mapMonthDay= sumTestedOutEvents.map((x)=>{
+                    return new Date(x.timestamp).getMonth()
+                })
+                const sumPerMonth= mapMonthDay.reduce(function (count, x){
+                    //console.log(count ,x)
+                    //count[x]= count[x] === undefined ? 1 :  count[x] + 1
+                    if (count[x] === undefined) {
+                        count[x] = 1
+                    } else {
+                        count[x] = count[x] + 1
+                    }
+                    return count
+                }, {})
+                console.log(Object.values(sumPerMonth))
+                console.log('----------------the sum', sumPerMonth)
+                return sumPerMonth
+            },
+            async loadDataEvents() {
+                const response = await fetch ('http://localhost:5000/api/analysis/supply_line_current_state')
+                this.eventReports= await response.json()
+                console.log(this.eventReports)
+            },
+            async loadData(){
+                const response = await fetch ('http://localhost:5000/api/analysis/number_of_machines_in_each_event')
+                this.data= await response.json()
+                this.dataReport= Object.values(this.data)
+                this.dataKeys= Object.keys(this.data)
+            },
+            async currentState(){
+                const response = await fetch ('http://localhost:5000/api/analysis/supply_line_current_state')
+                this.lastReports= await response.json()
+                console.log(this.lastReports)
+            },
+            async collectorData(){
+                const response = await fetch ('http://localhost:5000/api/analysis/collector')
+                this.collector = await response.json()
+                console.log(this.collector)
+            },
+            handleClick(){
+                this.displayCharts= true
+                this.displayMachine = false
+            },
+            onClicked(){
+                this.displayCharts= false
+                this.displayMachine = true
+            },
+            counter_timestamp(){
             
-        }
+                const mapMonthDay= this.reports.map((x)=>{
+                    return new Date(x.timestamp).getMonth()
+                })
+                const sumPerMonth= mapMonthDay.reduce(function (count, x){
+                    //console.log(count ,x)
+                    //count[x]= count[x] === undefined ? 1 :  count[x] + 1
+                    if (count[x] === undefined) {
+                        count[x] = 1
+                    } else {
+                        count[x] = count[x] + 1
+                    }
+                    return count
+                }, {})
+                console.log(sumPerMonth)
+                console.log(Object.values(sumPerMonth))
+                
+            },   
     }
 }
 
